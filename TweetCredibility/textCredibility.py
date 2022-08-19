@@ -7,8 +7,7 @@ from spellchecker import SpellChecker
 def cleanText(testo):
     testo=re.sub("http\S+", '',  testo)
     return testo.translate(str.maketrans('', '', string.punctuation.replace('@', ""))).lower()
-
-
+    
 def getText(tweetPath):
     file = open(tweetPath)
     data = json.load(file)
