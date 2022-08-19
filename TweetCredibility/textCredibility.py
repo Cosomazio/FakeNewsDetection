@@ -16,9 +16,8 @@ def isSpam(testo):
     pass
 
 def badWords(testo):
-    location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    with open(os.path.join(location, 'bad_words.txt'), 'r') as badDict:
-        profanities= badDict.readlines()
+    with open(os.path.realpath(os.path.dirname(__file__))+'/bad_words.txt', 'r') as badDict:
+        profanities = badDict.readlines()
     testo=testo.translate(str.maketrans('', '', string.punctuation))
     testo=testo.lower()
 
