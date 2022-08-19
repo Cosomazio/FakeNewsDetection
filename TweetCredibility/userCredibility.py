@@ -1,9 +1,10 @@
 from datetime import date
+import json
 
 SOCIALPLATFORMCREATED = 2006  #Year of creation of Twitter
 
-def userCredibility(data):
-    
+def userCredibility(filepath):
+    data=getdata(filepath)
     user=data["user"]
     
     verified_weight=50 if user["verified"] else 0 #this is for see if the user is verfied
@@ -19,4 +20,7 @@ def userCredibility(data):
     return user_credibility
 
 
-
+def getdata(filepath):
+    f=open(filepath)
+    data = json.load(f)
+    return data
