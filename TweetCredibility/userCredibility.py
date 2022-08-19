@@ -23,4 +23,5 @@ def userCredibility(filepath):
 def getdata(filepath):
     f=open(filepath)
     data = json.load(f)
+    f.close()
     return data
