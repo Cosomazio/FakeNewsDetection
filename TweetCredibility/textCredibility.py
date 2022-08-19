@@ -2,6 +2,8 @@ import json
 import os
 from nltk.tokenize import word_tokenize
 import string
+from spellchecker import SpellChecker
+
 
 def getText(tweetPath):
     file = open(tweetPath)
@@ -19,6 +21,7 @@ def badWords(testo):
         profanities= badDict.readlines()
     testo=testo.translate(str.maketrans('', '', string.punctuation))
     testo=testo.lower()
+
     badCount=0
     for line in profanities:
         if line.split('\n')[0] in testo:
@@ -26,13 +29,19 @@ def badWords(testo):
     
     return round((badCount/len(testo.split()))*100, 2)
 
+#for use miSpelling you HAVE TO install the SpellCheker library (https://pyspellchecker.readthedocs.io/en/latest/)
 def miSpelling(testo):
-    pass
+    testo=testo.translate(str.maketrans('', '', string.punctuation))
+    spell=SpellChecker()
+    testo = testo.lower().split()
+    misspelled=spell.unknown(testo)
+    return round((len(misspelled)/len(testo))*100,2)
 
 def textCredibility(tweetPath):
     testo = getText(tweetPath)
     return isSpam(testo)+badWords(testo)+miSpelling(testo)
 
 
-stringa="my sweet, jesus fuck i: love this planet because there are all those dicks"
+stringa="my sweet, jesus f*ck i: love this plsanft because there are all thoae dicks"
 print(badWords(stringa))
+print(miSpelling(stringa))
