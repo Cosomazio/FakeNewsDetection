@@ -1,7 +1,8 @@
+import json
 MAX_FOLLOWERS = 132500000  #max number of follower on Twitter (Barak Obama)
 
-def socialCredibility(data):
-
+def socialCredibility(filepath):
+    data=getdata(filepath)
     user_following = data["user"]["following"] #this is the following of the user
     user_followers= data["user"]["followers_count"] #this is the followers of the user
 
@@ -15,3 +16,8 @@ def socialCredibility(data):
 
     social_credibility= follower_impact+ff_proportion
     return social_credibility
+
+def getdata(filepath):
+    f=open(filepath)
+    data = json.load(f)
+    return data
