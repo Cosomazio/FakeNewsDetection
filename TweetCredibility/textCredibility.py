@@ -1,8 +1,12 @@
 import json
 import os
-from nltk.tokenize import word_tokenize
+import re
 import string
 from spellchecker import SpellChecker
+
+def cleanText(testo):
+    testo=re.sub("http\S+", '',  testo)
+    return testo.translate(str.maketrans('', '', string.punctuation.replace('@', ""))).lower()
 
 
 def getText(tweetPath):
@@ -18,29 +22,35 @@ def isSpam(testo):
 def badWords(testo):
     with open(os.path.realpath(os.path.dirname(__file__))+'/bad_words.txt', 'r') as badDict:
         profanities = badDict.readlines()
-    testo=testo.translate(str.maketrans('', '', string.punctuation))
-    testo=testo.lower()
 
+    testo=cleanText(testo)
+    testo=testo.split()
+
+    checker = SpellChecker()
+    mispelled = checker.unknown(testo)
+    for word in mispelled:
+        testo[testo.index(word)]=checker.correction(word)     
+    
     badCount=0
     for line in profanities:
-        if line.split('\n')[0] in testo:
+        if line.split('\n')[0] in " ".join(testo):
             badCount+=1
     
-    return round((badCount/len(testo.split()))*100, 2)
+    return round((badCount/len(testo))*100, 2)
 
 #for use miSpelling you HAVE TO install the SpellCheker library (https://pyspellchecker.readthedocs.io/en/latest/)
 def miSpelling(testo):
-    testo=testo.translate(str.maketrans('', '', string.punctuation))
     spell=SpellChecker()
-    testo = testo.lower().split()
-    misspelled=spell.unknown(testo)
+    testo = cleanText(testo).split()
+    misspelled= [el for el in spell.unknown(testo) if not '@' in el]
     return round((len(misspelled)/len(testo))*100,2)
 
 def textCredibility(tweetPath):
     testo = getText(tweetPath)
-    return isSpam(testo)+badWords(testo)+miSpelling(testo)
+    print(badWords(testo))
+    print(miSpelling(testo))
+    #return isSpam(testo)+badWords(testo)+miSpelling(testo)
 
 
-stringa="my sweet, jesus f*ck i: love this plsanft because there are all thoae dicks"
-print(badWords(stringa))
-print(miSpelling(stringa))
+tweetpath="./FakeNewsDetection/TweetCredibility/529572620782825473.json"
+textCredibility(tweetpath)
