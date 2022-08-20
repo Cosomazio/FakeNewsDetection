@@ -5,8 +5,10 @@ import re
 import os
 
 def cleanText(testo):
-    testo=re.sub("http\S+", '',  testo)
-    return testo.translate(str.maketrans('', '', string.punctuation.replace('@', ""))).lower()
+    #print(type(testo))
+    testo=re.sub("http\S+", '',  str(testo))
+    testo= testo.translate(str.maketrans('', '', string.punctuation.replace('@', ""))).lower()
+    return testo
 
 def predict_text(testo, spam_bow, non_spam_bow, FRAC_SPAM_TEXT):
     valid_words=[word for word in testo if word in spam_bow]
@@ -17,27 +19,23 @@ def predict_text(testo, spam_bow, non_spam_bow, FRAC_SPAM_TEXT):
     spam_score = sum([np.log(probability) for probability in spam_prob]) + np.log(FRAC_SPAM_TEXT)
     non_spam_score = sum([np.log(probability) for probability in non_spam_prob]) + np.log(1-FRAC_SPAM_TEXT)
 
-    #print('Spam Score: ', spam_score)
-    #print('Non-Spam Score: ',non_spam_score)
-
+    print(abs(spam_score-non_spam_score))
     return spam_score >= non_spam_score
 
 def prepare_dataframe(csv_path):
     spam_df = pd.read_csv(csv_path, delimiter='\t', header=None)
-
     spam_df = spam_df.rename(columns={0:'SPAM', 1:'TEXT'})
     
-
     spam_df.SPAM = spam_df.SPAM.apply(lambda s: True if s=='spam,' else False)
-
     spam_df.TEXT = spam_df.TEXT.apply(lambda text: cleanText(text))
-
-    spam_df = spam_df.sample(frac=1, random_state=28)
+    spam_df = spam_df.sample(frac=1, random_state=23)
 
     train_spam_df=spam_df.iloc[:int(len(spam_df)*0.8)]
     val_spam_df=spam_df.iloc[int(len(spam_df)*0.8):]
 
     FRAC_SPAM_TEXTS = train_spam_df.SPAM.mean()
+    FRAC_SPAM_TEXT1 = val_spam_df.SPAM.mean()
+    print(FRAC_SPAM_TEXTS, FRAC_SPAM_TEXT1)
 
     return train_spam_df, val_spam_df, FRAC_SPAM_TEXTS
 
@@ -55,15 +53,29 @@ def create_bag_of_words(train_spam_df):
     
     return spam_bow, non_spam_bow
 
+def test_performance(test_path, spam_bow, non_spam_bow, FRAC_SPAM_TEXTS):
+    test_df = pd.read_csv(test_path)
+    test_df=test_df.rename(columns={'label':'SPAM', 'message':'TEXT'})
+
+    test_df.SPAM = test_df.SPAM.apply(lambda s: True if s==1 else False)
+    test_df.TEXT = test_df.TEXT.apply(lambda text: cleanText(text))
+
+    test_pred=test_df.TEXT.apply(lambda text: predict_text(text.split(), spam_bow, non_spam_bow, FRAC_SPAM_TEXTS))
+
+    correctly_detected = np.sum((test_pred == True) & (test_df.SPAM == True)) / np.sum(test_df.SPAM == True)
+    return correctly_detected
 
 
-file_path=os.path.realpath(os.path.dirname(__file__))+'/train_datasetspam.csv'
-train_spam_df, val_spam_df, FRAC_SPAM_TEXT=prepare_dataframe(file_path)
-spam_bow, non_spam_bow = create_bag_of_words(train_spam_df)
+if __name__ == '__main__':
+    file_path=os.path.realpath(os.path.dirname(__file__))+'/train_spam_dataset.csv'
+    test_path=os.path.realpath(os.path.dirname(__file__))+'/messages.csv'
+    train_spam_df, val_spam_df, FRAC_SPAM_TEXTS=prepare_dataframe(file_path)
+    spam_bow, non_spam_bow = create_bag_of_words(train_spam_df)
 
-predictions = val_spam_df.TEXT.apply(lambda t: predict_text(t.split(), spam_bow, non_spam_bow, FRAC_SPAM_TEXT))
-frac_spam_messages_correctly_detected = np.sum((predictions == True) & (val_spam_df.SPAM == True)) / np.sum(val_spam_df.SPAM == True)
-print('Fraction Spam Correctly Detected: %s'%frac_spam_messages_correctly_detected)
+    predictions = val_spam_df.TEXT.apply(lambda t: predict_text(t.split(), spam_bow, non_spam_bow, FRAC_SPAM_TEXTS))
+    frac_spam_messages_correctly_detected = np.sum((predictions == True) & (val_spam_df.SPAM == True)) / np.sum(val_spam_df.SPAM == True)
+    print('Fraction Spam Correctly Detected on Validation: ', frac_spam_messages_correctly_detected)
+    print('Fraction Spam Correctly Detected on TEST: ', test_performance(test_path, spam_bow, non_spam_bow, FRAC_SPAM_TEXTS))
 
 
 
