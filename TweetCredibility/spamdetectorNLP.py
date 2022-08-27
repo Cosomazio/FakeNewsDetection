@@ -73,7 +73,7 @@ def contains_spam_word(testo):
     
     return 100 if spamCount != 0 else 0
 
-def isSpam(text,maxCountUppercase=3,maxCountEmoji=10,maxCountPunctuation=30):
+def predictText(text,maxCountUppercase=3,maxCountEmoji=10,maxCountPunctuation=30):
     text=str(text)
     if contains_spam_word(text):
         return True
@@ -108,7 +108,7 @@ if __name__ == '__main__':
 
     #############################################
 
-    predictions1 = spam_df1.TEXT.apply(lambda t: isSpam(t))
+    predictions1 = spam_df1.TEXT.apply(lambda t: predictText(t))
     frac_spam_messages_correctly_detected = np.sum((predictions1 == True) & (spam_df1.SPAM == True))
     frac_nospam = np.sum((predictions1 == False) & (spam_df1.SPAM == False))
     pred = (frac_nospam+frac_spam_messages_correctly_detected) / len(spam_df1.SPAM)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
 
     print('Fraction Spam Correctly Detected ', pred,frac_spam_messages_correctly_detected,frac_nospam)
 
-    predictions = spam_df.TEXT.apply(lambda t: isSpam(t))
+    predictions = spam_df.TEXT.apply(lambda t: predictText(t))
     frac_spam_messages_correctly_detected = np.sum((predictions == True) & (spam_df.SPAM == True)) 
     frac_nospam = np.sum((predictions == False) & (spam_df.SPAM == False))
     

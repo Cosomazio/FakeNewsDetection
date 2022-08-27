@@ -3,6 +3,8 @@ import os
 import re
 import string
 from spellchecker import SpellChecker
+from spamdetectorNLP import predictText
+#from spamdetectorLSTM import predictText
 
 def cleanText(testo):
     testo=re.sub("http\S+", '',  testo)
@@ -15,8 +17,11 @@ def getText(tweetPath):
     file.close()
     return text
 
-def isSpam(testo):
-    pass
+def isSpamNLP(testo):
+    return 0 if predictText(testo) else 100
+
+"""def isSpamLSTM(testo):
+    return 100 - round(predictText(testo), 2)*100"""
 
 def badWords(testo):
     with open(os.path.realpath(os.path.dirname(__file__))+'/bad_words.txt', 'r') as badDict:
@@ -35,21 +40,16 @@ def badWords(testo):
         if line.split('\n')[0] in " ".join(testo):
             badCount+=1
     
-    return round((badCount/len(testo))*100, 2)
+    return 100 - round((badCount/len(testo))*100, 2)
 
 #for use miSpelling you HAVE TO install the SpellCheker library (https://pyspellchecker.readthedocs.io/en/latest/)
 def miSpelling(testo):
     spell=SpellChecker()
     testo = cleanText(testo).split()
     misspelled= [el for el in spell.unknown(testo) if not '@' in el]
-    return round((len(misspelled)/len(testo))*100,2)
+    return 100 - round((len(misspelled)/len(testo))*100,2)
 
-def textCredibility(tweetPath):
+def textCredibility(tweetPath, NLP=True, isSpam_weight=0.34, badWords_weight=0.33, miSpelling_weight=0.33):
     testo = getText(tweetPath)
-    print(badWords(testo))
-    print(miSpelling(testo))
-    #return isSpam(testo)+badWords(testo)+miSpelling(testo)
-
-
-tweetpath="./FakeNewsDetection/TweetCredibility/529572620782825473.json"
-textCredibility(tweetpath)
+    if NLP:
+        return isSpam_weight*isSpamNLP(testo)+badWords_weight*badWords(testo)+miSpelling_weight*miSpelling(testo)
