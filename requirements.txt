@@ -1,1 +1,5 @@
 pip install pyspellchecker
+pip install emoji
+
+import nltk
+nltk.download("stopwords")
