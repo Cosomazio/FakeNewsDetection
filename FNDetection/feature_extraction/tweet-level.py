@@ -71,9 +71,12 @@ def nr_of_question_marks(text):
 def character_repetitions(text):
     pass
 
-def num_ascii_emoji(text,data):
+def num_ascii_emoji(text):
     count = 0
     checked_emoji=list()
+    filepath="FNDetection/feature_extraction/resources/ascii_emojis.json"
+    with open(filepath,'r') as f:
+        data = json.load(f)
     for emoji in data:
         #print(emoji)
         if emoji in checked_emoji:
@@ -81,36 +84,49 @@ def num_ascii_emoji(text,data):
         else:
             checked_emoji.append(emoji)
             if emoji in text:
-                print(emoji)
+                #print(emoji)
                 count+=1
     return count
 
-def contain_face_positive_emoji(text,data):
-    for emoji in data:
+def contain_face_positive_emoji(text):
+    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    with open(filepath,'r') as f:
+        data = json.load(f)
+
+    for emoji in data["face-positive"]:
         for word in text:
             word = 'U+{:X}'.format(ord(word))
             if emoji in word:
                 return True
     return False
 
-def contain_face_negative_emoji(text,data):
-    for emoji in data:
+def contain_face_negative_emoji(text):
+    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    with open(filepath,'r') as f:
+        data = json.load(f)
+    for emoji in data["face-negative"]:
         for word in text:
             word = 'U+{:X}'.format(ord(word))
             if emoji in word:
                 return True
     return False
 
-def contain_face_neutral_emoji(text,data):
-    for emoji in data:
+def contain_face_neutral_emoji(text):
+    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    with open(filepath,'r') as f:
+        data = json.load(f)
+    for emoji in data["face-neutral"]:
         for word in text:
             word = 'U+{:X}'.format(ord(word))
             if emoji in word:
                 return True
     return False
 
-def num_unicode_emoji(text,data):
+def num_unicode_emoji(text):
     count = 0
+    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    with open(filepath,'r') as f:
+        data = json.load(f)
     for el in data:
         for emoji in data[el]:
             for word in text:
@@ -143,17 +159,13 @@ if __name__=="__main__":
     #print("url_only: ", url_only(text))
 
 
-    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
-    with open(filepath,"r") as f:
-        data = json.load(f)
-        print(contain_face_positive_emoji("😊😟🙁😡🙂😑❤️",data["face-positive"]))
-        print(contain_face_negative_emoji("😞",data["face-negative"]))
-        print(contain_face_neutral_emoji("😊😟🙁😡🙂😑❤️",data["face-neutral"]))
-        print(num_unicode_emoji("😊😟🙁🙂😑",data))
+    
+    print(contain_face_positive_emoji("😊😟🙁😡🙂😑❤️"))
+    print(contain_face_negative_emoji("😞"))
+    print(contain_face_neutral_emoji("😊😟🙁😡🙂😑❤️"))
+    print(num_unicode_emoji("😊😟🙁🙂😑"))
 
-    filepath="FNDetection/feature_extraction/resources/ascii_emojis.json"
-    with open(filepath,"r") as f1:
-        data = json.load(f1)
-        print(num_ascii_emoji(":( :-) ",data))
+
+    print(num_ascii_emoji(":( :-) "))
     print(num_of_usermention("#Ampadu from @ChelseaFC to @acspezia ⏳ Loan with option to buy (€15m). He'll undergo medicals on Tuesday. #CFC #Chelsea #transfers @SkySport @SkySports"))
         
