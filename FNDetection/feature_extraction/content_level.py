@@ -1,11 +1,7 @@
 import re
 import string
 import emoji
-
-def remove_url(text):
-    """removes urls from the text"""
-    text = re.sub('(?P<url>https?://[^\s]+)', '', text)
-    return text
+from tweet_level import remove_urls
 
 #to change when tweepy works
 def remove_mention(text):
@@ -19,7 +15,7 @@ def remove_punctuation(text):
     return text
 
 def clearText(text):
-    return remove_punctuation(remove_url(text))
+    return remove_punctuation(remove_urls(text))
 
 def contains_number(text):
     for word in text:
@@ -67,5 +63,5 @@ def text_length(text):
     return count
 
 print(text_length("This is a @prova"))
-text = """ ciao amico  "bla bla bla" mi piace giovanna """
-print(contains_quotes(text), text)
+text = """ ciao amico -12  "bla bla bla" mi piace giovanna """
+print(contains_number(text), text)
