@@ -45,6 +45,8 @@ def no_text(text):
 def avg_word_length(text):
     sum = 0
     text = clearText(text)
+    if(len(text)==0):
+        return 0
     text = text.split()
     for word in text:
         current_sum=0
@@ -64,4 +66,4 @@ def text_length(text):
 
 print(text_length("This is a @prova"))
 text = """ ciao amico -12  "bla bla bla" mi piace giovanna """
-print(contains_number(text), text)
+print(no_text(text), text)
