@@ -1,5 +1,4 @@
 import re
-from curses.ascii import isdigit
 import string
 import emoji
 
@@ -8,6 +7,7 @@ def remove_url(text):
     text = re.sub('(?P<url>https?://[^\s]+)', '', text)
     return text
 
+#to change when tweepy works
 def remove_mention(text):
     text = re.sub('(@[^\s]+)','',text)
     return text
@@ -28,11 +28,15 @@ def contains_number(text):
     return False
 
 def contains_quotes(text):
-    text = text.split()
-    for word in text:
-        if "\"" in word:
-            return True
-    return False
+    #due flagghine per giggino
+    up=False
+    down=False
+    for i in range(len(text)//2):
+        j=len(text)-1-i
+        if "\"" in text[i]: up=True
+        if "\"" in text[j]: down=True
+    
+    return up & down
 
 def no_text(text):
     text = clearText(text)
@@ -63,3 +67,5 @@ def text_length(text):
     return count
 
 print(text_length("This is a @prova"))
+text = """ ciao amico  "bla bla bla" mi piace giovanna """
+print(contains_quotes(text), text)
