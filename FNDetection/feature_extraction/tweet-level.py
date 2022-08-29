@@ -20,11 +20,11 @@ def find_all_hashtags(text):
         return result
 
 def nr_of_urls(text):
-    #takes the text of a tweet and return the number of urls
+    """takes the text of a tweet and return the number of urls"""
     return len(find_all_urls(text))
 
 def avg_url_length(text):
-    #returns the average url length
+    """returns the average url length"""
     urls = find_all_urls(text)
     if len(urls) == 0:
         return 0
@@ -34,7 +34,7 @@ def avg_url_length(text):
     return round(somma/len(urls), 2)
 
 def url_only(text):
-    #verify if the text of a tweet is made by urls 
+    """verify if the text of a tweet is made by urls only"""
     if(len(text) == 0):
         return False
     text=remove_urls(text)
@@ -44,13 +44,14 @@ def url_only(text):
     return False
 
 def nr_of_hashtag(text):
+    """ counts the number of hashtags in the text"""
     return len(find_all_hashtags(text))
 
 def nr_of_popular_hashtag(text):
     pass
 
 def nr_of_punctuation(text):
-    #returns the number of punctuation character used in the actual text of a tweet
+    """returns the number of punctuation characters used in the actual text of a tweet"""
     punteggiatura = list(string.punctuation) + ['’', '…', '‘', '“', '”']
     somma=0
 
@@ -63,6 +64,8 @@ def nr_of_punctuation(text):
     return somma
 
 def ratio_of_punctuation(text):
+    #la lunghezza della strigna tiene in considerazione anche gli spazi bianchi: tokenizzare per verificare punteggiatura rispetto a soli caratteri utili o meno?
+    """ ratio of punctuation characters respect to the length of the string"""
     if(len(text)==0):
         return 0
     somma=nr_of_punctuation(text)
@@ -70,6 +73,7 @@ def ratio_of_punctuation(text):
     return round(somma/len(text), 3)
 
 def nr_of_exclamation_marks(text):
+    """ counts the number of exclamation marks that are present in the string"""
     somma=0
     for carattere in remove_urls(text):
         if carattere == '!':
@@ -77,6 +81,7 @@ def nr_of_exclamation_marks(text):
     return somma
 
 def nr_of_question_marks(text):
+    """ counts the number of question marks that are present in the string"""
     somma=0
     for carattere in remove_urls(text):
         if carattere == '?':
