@@ -26,6 +26,8 @@ def nr_of_urls(text):
 def avg_url_length(text):
     #returns the average url length
     urls = find_all_urls(text)
+    if len(urls) == 0:
+        return 0
     somma=0
     for url in urls:
         somma+=len(url)
@@ -33,6 +35,8 @@ def avg_url_length(text):
 
 def url_only(text):
     #verify if the text of a tweet is made by urls 
+    if(len(text) == 0):
+        return False
     text=remove_urls(text)
     text=re.sub('[^A-Za-z0-9]+', '', text) 
     if(len(text)==0):
@@ -49,10 +53,21 @@ def nr_of_punctuation(text):
     #returns the number of punctuation character used in the actual text of a tweet
     punteggiatura = list(string.punctuation) + ['’', '…', '‘', '“', '”']
     somma=0
-    for carattere in remove_urls(text):
+
+    no_url=remove_urls(text)
+    if(len(no_url)==0):
+        return 0
+    for carattere in no_url:
         if carattere in punteggiatura:
             somma+=1
     return somma
+
+def ratio_of_punctuation(text):
+    if(len(text)==0):
+        return 0
+    somma=nr_of_punctuation(text)
+    print(somma, len(text))
+    return round(somma/len(text), 3)
 
 def nr_of_exclamation_marks(text):
     somma=0
@@ -68,8 +83,23 @@ def nr_of_question_marks(text):
             somma+=1
     return somma
 
+def contains_stock_symbols(text):
+    """finds stock mentions in the text (all words that start with $)"""
+    stocks = []
+    words = text.split()
+    for w in words:
+        if len(w) > 0:
+            if re.match("\$\w+", w):
+                stocks.append(w)
+    return len(stocks) > 0
+
 def character_repetitions(text):
-    pass
+    """ returns True if a character is followed by at least 2 repetitions of itself """
+    pattern = re.compile(r"(.)\1{2,}")
+    if re.findall(pattern, text):
+        return True
+    else:
+        return False
 
 def num_ascii_emoji(text):
     count = 0
@@ -153,6 +183,9 @@ if __name__=="__main__":
 
     print("nr_of_#: ", nr_of_hashtag(text))
     print("nr_of_punctuation: ", nr_of_punctuation(text))
+    print("ratio of punctuation: ", ratio_of_punctuation(text))
+    print("character_repetitions: ", character_repetitions(text))
+    print("stock_symbols: ", contains_stock_symbols(text))
     print("nr of exclamation marks: ", nr_of_exclamation_marks(text))
     print("nr of question marks: ", nr_of_question_marks(text))
     #print("avg_url_length: ", avg_url_length(text))
