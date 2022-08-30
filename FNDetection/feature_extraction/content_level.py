@@ -2,7 +2,8 @@ import re
 import string
 import emoji
 from tweet_level import remove_urls
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
+
 
 #to change when tweepy works
 def remove_mention(text):
@@ -147,9 +148,31 @@ def num_of_sentences(text):
     tok=sent_tokenize(text)
     return len(tok)
 
+def nr_words_token(text):
+    """ returns the numbner of tokens that are actual words without counting user mentions, emoji and urls"""
+    text= remove_mention(text)
+    text = clearText(text)
+    if len(text) ==0:
+        return []
+    return len(word_tokenize(text))
 
-print(no_text("This😂😂 is a @prova 😂"))
-text = """ ciao amico -12  "bla bla bla" mi piace giovanna """
-text = "CIA A TUTTg. Sono bello U.S. Miao"
+def nr_of_tokens(text):
+    """ returns the number of tokens in the text without counting user mentions and urls"""
+    text = remove_mention(remove_urls(text))
+    return len(word_tokenize(text))
 
-print(num_of_sentences(text), text)
+
+if __name__ == "__main__":
+    print(no_text("This😂😂 is a @prova 😂"))
+    text = """ ciao amico -12  "bla bla bla" mi piace giovanna """
+    text = "CIA A TUTTg. Sono bello U.S. Miao"
+
+    print(num_of_sentences(text), text)
+
+    text="CIAO MY FRIEND, COME TE LA PASSI? IO STO"
+    text1="This😂😂 is a @prova 😂"
+
+    print(nr_words_token(text))
+    print(nr_words_token(text1))
+    print(nr_of_tokens(text))
+    print(nr_of_tokens(text1))
