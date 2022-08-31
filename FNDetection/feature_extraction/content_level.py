@@ -6,7 +6,21 @@ from tweet_level import remove_urls
 from nltk.tokenize import sent_tokenize, word_tokenize,regexp_tokenize
 from nltk.corpus import stopwords
 from nltk import pos_tag
+from nltk import WordNetLemmatizer
 from spellchecker import SpellChecker
+
+def lemmatize(token, pos_tag):
+    if pos_tag == 'J':
+        pos_tag='a'
+    elif pos_tag == 'N':
+        pos_tag='n'
+    elif pos_tag == 'R':
+        pos_tag='r'
+    elif pos_tag == 'V':
+        pos_tag='v'
+
+    lemmatizer= WordNetLemmatizer()
+    return lemmatizer.lemmatize(token, pos_tag)
 
 def replace_contractions_text(token):
         """short form replacement from http://speakspeak.com/resources/english-grammar-rules/various-grammar-rules/short-forms-contractions
@@ -75,17 +89,19 @@ def replace_contractions_text(token):
         token = token.replace("they'd", "they would")
 
         return token
+
 #to change when tweepy works
 def remove_mention(text):
     text = re.sub('(@[^\s]+)','',text)
     return text
 
+# change in remove slang and tokenization
 def remove_slang(text):
     with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
 
     text = tokenization_no_contr(text)
-
+    
     for word in text:
         if word in data:
             text[text.index(word)]=data[word]
@@ -102,11 +118,21 @@ def remove_emoji(text):
     for el in text:
         if emoji.is_emoji(el):
             text = text.replace(el,'')
+    
+    with open("FNDetection/feature_extraction/resources/ascii_emojis.json", 'r') as file:
+        emojis=json.load(file)
+    
+    for el in emojis:
+        if el in text:
+            text = text.replace(el, '') 
+
     return text
 
 def clearText(text):
     text = remove_emoji(text)
-    return remove_punctuation(remove_urls(text))
+    text = remove_mention(text)
+    text = remove_urls(text) 
+    return remove_punctuation(text)
 
 def contains_number(text):
     for word in text:
@@ -158,6 +184,7 @@ def text_length(text):
 
 def is_all_uppercase(text):
     """check if the text are all in uppercase"""
+    text = clearText(text)
     text = text.replace(" ",'')
     count =0
     for word in text:
@@ -167,9 +194,7 @@ def is_all_uppercase(text):
 
 def contains_uppercase_text(text):
     """check if the text contain a sequence of chatacter of length five or larger that contain only uppercase letters"""
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
+    text = clearText(text)
     text = text.replace(" ",'')
     cont=False
     count =0
@@ -183,6 +208,7 @@ def contains_uppercase_text(text):
 
 def count_upper_letter(text):
     """Counts the number of uppercase letter"""
+    clearText(text)
     text = text.replace(" ",'')
     count =0
     for word in text:
@@ -193,9 +219,7 @@ def count_upper_letter(text):
 def ratio_capitalized_words(text):
     """Counts the number of capitalized words and relates them to the word count.
     Words with only capitalized characters are not included in the count for capitalized words."""
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
+    text=clearText(text)
     sum=leng=0
     #text = text.replace(" ",'')
     text = text.split()
@@ -210,9 +234,7 @@ def ratio_capitalized_words(text):
 
 def ratio_all_capitalized_words(text):
     """Ratio of words that contain only capitalized letters to the total number of words."""
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
+    text = clearText(text)
     sum=leng=0
     text=text.split()
 
@@ -232,27 +254,28 @@ def num_of_sentences(text):
 
 def nr_words_token(text):
     """ returns the numbner of tokens that are actual words without counting user mentions, emoji and urls"""
-    text= remove_mention(text)
+
     text = clearText(text)
     if len(text) ==0:
-        return []
+        return 0
     return len(tokenization_no_contr(text))
 
 def nr_of_tokens(text):
     """ returns the number of tokens in the text without counting user mentions and urls"""
     text = remove_mention(remove_urls(text))
-    return len(word_tokenize(text))
+    return len(word_tokenize(text)) #cambiare il tokenizzatore
 
 def num_of_slang_words(text):
     count=0
     with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
-    text=tokenization_no_contr(text)
+    text=tokenization_no_contr(text) #cambiare con tokenizzazione e no contrazione
     for word in text:
         if word in data:
             count+=1
     return count
 
+#change in tokenization and remove contraction
 def tokenization_no_contr(text):
     st=""
     text = text.split()
@@ -260,15 +283,14 @@ def tokenization_no_contr(text):
         el = replace_contractions_text(el)
         st+=el+" "
     text= regexp_tokenize(st,"[\w’]+")
+    #text = word_tokenize(st)
+
     return text
 
 def ratio_adjectives(text):
     count = 0
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
-
-    text = remove_slang(text)
+    text = clearText(text)
+    text = remove_slang(text) # poi tokenizzi
     wordslist = [w for w in text]
 
     tagged = pos_tag(wordslist)
@@ -279,11 +301,9 @@ def ratio_adjectives(text):
 
 def ratio_verbs(text):
     count = 0
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
+    text = clearText(text)
 
-    text = remove_slang(text)
+    text = remove_slang(text) #poi tokenizzi
 
     wordslist = [w for w in text]
 
@@ -295,11 +315,8 @@ def ratio_verbs(text):
 
 def ratio_nouns(text):
     count = 0
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
-
-    text = remove_slang(text)
+    text = clearText(text)
+    text = remove_slang(text) #poi tokenizzi
 
     wordslist = [w for w in text]
 
@@ -311,15 +328,14 @@ def ratio_nouns(text):
     return count/len(wordslist)
 
 def contains_pronouns(text):
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
+    text = clearText(text)
 
-    text = remove_slang(text)
+    text = remove_slang(text) #poi tokenizzi
 
     wordslist = [w for w in text]
 
     tagged = pos_tag(wordslist)
+    
     
     for el in tagged:
         if el[1][0] == 'P' and el[1] != "PDT":
@@ -327,12 +343,10 @@ def contains_pronouns(text):
     return False
 
 def ratio_stopwords(text):
-    text = remove_mention(text)
-    text = remove_emoji(text)
-    text = remove_urls(text)
+    text = clearText(text)
     stop_words = set(stopwords.words('english'))
 
-    text = remove_slang(text)
+    text = remove_slang(text) #poi tokenizzi
     
     wordslist = [w for w in text if w in stop_words]
     print(wordslist)
@@ -342,6 +356,7 @@ def miSpelling(text):
     spell=SpellChecker()
     text = remove_emoji(text)
     text = remove_mention(text)
+    text = remove_urls(text)
     text = remove_slang(text)
 
     misspelled= [el for el in spell.unknown(text)]
@@ -368,4 +383,6 @@ if __name__ == "__main__":
     print("nouns ",ratio_nouns("hi boy, you're so cute but i can't fuck you it's 2 l8"))
     print(ratio_stopwords("hi boy, you're so cute but i can't fuck you it's 2 l8"))
     print(miSpelling("hi boy, you're so cute but i can't fck you it's 2 l8"))
+    
+    print(remove_emoji(":-<3, :-):("))
     #print(avg_word_length("hi boy, you're, so cute but i can't fuck you it's 2 l8"))
