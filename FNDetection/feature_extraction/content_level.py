@@ -80,6 +80,17 @@ def remove_mention(text):
     text = re.sub('(@[^\s]+)','',text)
     return text
 
+def remove_slang(text):
+    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
+        data = json.load(file)
+
+    text = tokenization_no_contr(text)
+
+    for word in text:
+        if word in data:
+            text[text.index(word)]=data[word]
+    return text
+
 def remove_punctuation(text):
     """removes punctuation for the text"""
     punteggiatura = list(string.punctuation) + ['’', '…', '‘', '“', '”']
@@ -257,13 +268,7 @@ def ratio_adjectives(text):
     text = remove_emoji(text)
     text = remove_urls(text)
 
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
-        data = json.load(file)
-    text = tokenization_no_contr(text)
-
-    for word in text:
-        if word in data:
-            text[text.index(word)]=data[word]
+    text = remove_slang(text)
     wordslist = [w for w in text]
 
     tagged = pos_tag(wordslist)
@@ -278,13 +283,7 @@ def ratio_verbs(text):
     text = remove_emoji(text)
     text = remove_urls(text)
 
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
-        data = json.load(file)
-    text = tokenization_no_contr(text)
-
-    for word in text:
-        if word in data:
-            text[text.index(word)]=data[word]
+    text = remove_slang(text)
 
     wordslist = [w for w in text]
 
@@ -300,14 +299,7 @@ def ratio_nouns(text):
     text = remove_emoji(text)
     text = remove_urls(text)
 
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
-        data = json.load(file)
-
-    text = tokenization_no_contr(text)
-
-    for word in text:
-        if word in data:
-            text[text.index(word)]=data[word]
+    text = remove_slang(text)
 
     wordslist = [w for w in text]
 
@@ -323,14 +315,7 @@ def contains_pronouns(text):
     text = remove_emoji(text)
     text = remove_urls(text)
 
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
-        data = json.load(file)
-
-    text = tokenization_no_contr(text)
-
-    for word in text:
-        if word in data:
-            text[text.index(word)]=data[word]
+    text = remove_slang(text)
 
     wordslist = [w for w in text]
 
@@ -347,16 +332,8 @@ def ratio_stopwords(text):
     text = remove_urls(text)
     stop_words = set(stopwords.words('english'))
 
-    print(stop_words)
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
-        data = json.load(file)
-
-    text = tokenization_no_contr(text)
-
-    for word in text:
-        if word in data:
-            text[text.index(word)]=data[word]
-
+    text = remove_slang(text)
+    
     wordslist = [w for w in text if w in stop_words]
     print(wordslist)
     return len(wordslist)/len(text)
@@ -365,14 +342,7 @@ def miSpelling(text):
     spell=SpellChecker()
     text = remove_emoji(text)
     text = remove_mention(text)
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
-        data = json.load(file)
-
-    text = tokenization_no_contr(text)
-
-    for word in text:
-        if word in data:
-            text[text.index(word)]=data[word]
+    text = remove_slang(text)
 
     misspelled= [el for el in spell.unknown(text)]
     return len(misspelled)!=0
