@@ -1,23 +1,7 @@
 import re
 import string
 import json
-
-def find_all_urls(text):
-        """searches the text for urls and returns them"""
-        search_str = '(?P<url>https?://[^\s]+)'
-        result = re.findall(search_str, text)
-        return result
-
-def remove_urls(text):
-        """removes urls from the text"""
-        text = re.sub('(?P<url>https?://[^\s]+)', '', text)
-        return text
-
-def find_all_hashtags(text):
-        """searches the text for hashtags and returns them"""
-        searchStr = '\B#\w*[a-zA-Z]+\w*'
-        result = re.findall(searchStr, text)
-        return result
+from content_level import *
 
 def nr_of_urls(text):
     """takes the text of a tweet and return the number of urls"""
@@ -66,11 +50,12 @@ def nr_of_punctuation(text):
 def ratio_of_punctuation(text):
     #la lunghezza della strigna tiene in considerazione anche gli spazi bianchi: tokenizzare per verificare punteggiatura rispetto a soli caratteri utili o meno?
     """ ratio of punctuation characters respect to the length of the string"""
+    text=remove_urls(text)
     if(len(text)==0):
         return 0
     somma=nr_of_punctuation(text)
-    print(somma, len(text))
-    return round(somma/len(text), 3)
+    print(somma, len(tokenization(text)), tokenization(text))
+    return round(somma/len(tokenization(text)), 3)
 
 def nr_of_exclamation_marks(text):
     """ counts the number of exclamation marks that are present in the string"""
