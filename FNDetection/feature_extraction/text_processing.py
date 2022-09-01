@@ -78,10 +78,10 @@ def clearText(text):
 
 def tokenization(text):
     #sistemare la tokenizzazione
-    regexp=r"[\w']+|[.,!?;()=:@)]+|["
+    regexp=r"[\w']+|["
     for el in emoji.unicode_codes.data_dict.EMOJI_DATA:
         regexp+=el
-    regexp+="]"
+    regexp+="]|[.,!?;(=:)@]"
 
     text = regexp_tokenize(text, regexp)
     return text
