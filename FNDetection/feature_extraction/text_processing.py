@@ -14,6 +14,8 @@ def lemmatize(token, pos_tag):
         pos_tag='r'
     elif pos_tag == 'V':
         pos_tag='v'
+    else:
+        return token
 
     lemmatizer= WordNetLemmatizer()
     return lemmatizer.lemmatize(token, pos_tag)
@@ -81,7 +83,7 @@ def tokenization(text):
     regexp=r"[\w']+|["
     for el in emoji.unicode_codes.data_dict.EMOJI_DATA:
         regexp+=el
-    regexp+="]|[.,!?;(=:)@]"
+    regexp+="]|[^a-zA-Z]{1,3}"
 
     text = regexp_tokenize(text, regexp)
     return text
