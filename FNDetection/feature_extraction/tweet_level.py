@@ -2,6 +2,7 @@ import re
 import string
 import json
 from content_level import *
+from twitter_api import api_v2_connection
 
 def nr_of_urls(text):
     """takes the text of a tweet and return the number of urls"""
@@ -155,16 +156,23 @@ def num_unicode_emoji(text):
                     count+=1
     return count
 
-def num_of_media(tweet):
-    pass #because ci serve la twitter API
+def num_of_media(tweet_id):
+    """return the num of media in the tweet"""
+    connection = api_v2_connection()
+    tweet = connection.get_tweet(tweet_id,tweet_fields=["attachments"])
+    return len(tweet.data.attachments["media_keys"])
 
 def num_of_usermention(text):
+    """return the num of usermention"""
     count = 0
     text = text.split()
     for el in text:
         if '@' in el:
-            #ci serve twitter api per controllare che l'utente esiste, se esiste andiamo a fare +1 altrimenti no
-            count+=1
+            username=el.split("@")[-1]
+            client = api_v2_connection()
+            user = client.get_user(username=username)
+            #print(user.data)
+            if user.data != None : count+=1
     return count
 
 
