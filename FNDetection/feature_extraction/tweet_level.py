@@ -3,6 +3,7 @@ import string
 import json
 from content_level import *
 from twitter_api import api_v2_connection
+from nltk.tokenize import word_tokenize
 
 def nr_of_urls(text):
     """takes the text of a tweet and return the number of urls"""
@@ -168,7 +169,8 @@ def num_of_usermention(text):
     text = text.split()
     for el in text:
         if '@' in el:
-            username=el.split("@")[-1]
+            username=word_tokenize(el.split("@")[-1])[0]
+            print(username)
             client = api_v2_connection()
             user = client.get_user(username=username)
             #print(user.data)
