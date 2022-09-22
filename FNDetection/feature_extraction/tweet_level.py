@@ -1,8 +1,8 @@
 import re
 import string
 import json
-from content_level import *
-from twitter_api import api_v2_connection
+from feature_extraction.content_level import *
+from feature_extraction.twitter_api import api_v2_connection
 from nltk.tokenize import word_tokenize
 
 def nr_of_urls(text):
