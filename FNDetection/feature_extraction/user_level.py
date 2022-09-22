@@ -21,7 +21,8 @@ def desc_contains_hashtags(user_id):
     return False
 
 def desc_contains_user_mention(user_id):
-    result = num_of_usermention(get_description(user_id))
+    desc = get_description(user_id)
+    result = num_of_usermention(desc)
     if result != 0:
         return True
     return False
@@ -57,6 +58,21 @@ def created_days_ago(user_id):
     date_created=time.strptime(str(user.data.created_at).split()[0],date_format)
     date_created = datetime.datetime.fromtimestamp(time.mktime(date_created))
     return(date_today-date_created).days
+
+def default_profile(user_id):
+    api = api_v1_connection()
+    user = api.get_user(user_id=user_id)
+    return user.default_profile
+
+def profile_background_tile(user_id):
+    api = api_v1_connection()
+    user = api.get_user(user_id=user_id)
+    return user.profile_background_tile
+
+def profile_use_background_image(user_id):
+    api = api_v1_connection()
+    user = api.get_user(user_id=user_id)
+    return user.profile_use_background_image
    
 if __name__ == "__main__":
     #id=1518948046809219076
@@ -72,3 +88,7 @@ if __name__ == "__main__":
     print("Friend per followers:",friends_per_followers(id))
     print("Following more than 100:",is_following_more_than_100(id))
     print("created day ago:",created_days_ago(id))
+
+    print(default_profile(id))
+    print(profile_background_tile(id))
+    print(profile_use_background_image(id))
