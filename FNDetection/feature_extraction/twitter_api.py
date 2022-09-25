@@ -30,6 +30,11 @@ def get_user_id(tweet_id, v2_connection):
     tweet = v2_connection.get_tweet(tweet_id, expansions=['author_id'])
     return tweet.data.author_id
 
+def get_tweet_text(tweet_id, v1_connection):
+    
+    tweet = v1_connection.get_status(tweet_id)
+    return tweet.text
+
 def followers_count(user_id, v2_connection):
     user =v2_connection.get_user(id=user_id, user_fields=["public_metrics"])
     return user.data.public_metrics['followers_count']
