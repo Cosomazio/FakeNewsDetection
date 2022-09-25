@@ -1,9 +1,9 @@
 import json
 import emoji
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 from nltk import pos_tag
-from feature_extraction.text_processing import *
+from text_processing import *
 
 from spellchecker import SpellChecker
 
