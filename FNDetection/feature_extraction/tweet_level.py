@@ -1,8 +1,7 @@
 import re
 import string
 import json
-from feature_extraction.content_level import *
-from feature_extraction.twitter_api import api_v2_connection
+from content_level import *
 from nltk.tokenize import word_tokenize
 
 def nr_of_urls(text):
@@ -157,13 +156,13 @@ def num_unicode_emoji(text):
                     count+=1
     return count
 
-def num_of_media(tweet_id):
+def num_of_media(tweet_id, v2_connection):
     """return the num of media in the tweet"""
-    connection = api_v2_connection()
+    connection = v2_connection
     tweet = connection.get_tweet(tweet_id,tweet_fields=["attachments"])
     return len(tweet.data.attachments["media_keys"])
 
-def num_of_usermention(text):
+def num_of_usermention(text, v2_connection):
     """return the num of usermention"""
     count = 0
     text = text.split()
@@ -171,7 +170,7 @@ def num_of_usermention(text):
         if '@' in el:
             username=word_tokenize(el.split("@")[-1])[0]
             print(username)
-            client = api_v2_connection()
+            client = v2_connection
             user = client.get_user(username=username)
             #print(user.data)
             if user.data != None : count+=1
