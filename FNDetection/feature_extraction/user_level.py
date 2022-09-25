@@ -1,56 +1,56 @@
-from feature_extraction.twitter_api import *
-from feature_extraction.tweet_level import *
+from twitter_api import *
+from tweet_level import *
 import time
 import datetime
 from datetime import date
 
-def get_description(user_id):
-    client = api_v2_connection()
+def get_description(user_id, v2_connection):
+    client = v2_connection
     user = client.get_user(id=user_id,user_fields=["description"])
     return user.data.description
 
-def has_desc(user_id):
-    if len(get_description(user_id)) != 0:
+def has_desc(user_id, v2_connection):
+    if len(get_description(user_id, v2_connection)) != 0:
         return True
     return False
 
-def desc_contains_hashtags(user_id):
-    result = nr_of_hashtag(get_description(user_id))
+def desc_contains_hashtags(user_id, v2_connection):
+    result = nr_of_hashtag(get_description(user_id, v2_connection))
     if result:
         return True
     return False
 
-def desc_contains_user_mention(user_id):
-    desc = get_description(user_id)
+def desc_contains_user_mention(user_id, v2_connection):
+    desc = get_description(user_id, v2_connection)
     result = num_of_usermention(desc)
     if result != 0:
         return True
     return False
 
-def desc_contains_url(user_id):
-    result = nr_of_urls(get_description(user_id))
+def desc_contains_url(user_id, v2_connection):
+    result = nr_of_urls(get_description(user_id, v2_connection))
     if result != 0:
         return True
     return False
 
-def desc_length(user_id):
-    return len(get_description(user_id))
+def desc_length(user_id, v2_connection):
+    return len(get_description(user_id, v2_connection))
 
-def url_lenght(user_id):
-    client = api_v2_connection()
+def url_lenght(user_id, v2_connection):
+    client =v2_connection
     user = client.get_user(id=user_id,user_fields=["url"])
     return len(user.data.url)
 
-def friends_per_followers(user_id):
-    friend=friends_count(user_id,api_v2_connection())
-    follow=followers_count(user_id,api_v2_connection())
+def friends_per_followers(user_id, v2_connection):
+    friend=friends_count(user_id, v2_connection)
+    follow=followers_count(user_id, v2_connection)
     return round(friend/follow,5) if follow != 0 else 0
 
-def is_following_more_than_100(user_id):
-    return True if followers_count(user_id,api_v2_connection()) >= 100 else False
+def is_following_more_than_100(user_id, v2_connection):
+    return True if followers_count(user_id,v2_connection) >= 100 else False
 
-def created_days_ago(user_id):
-    client = api_v2_connection()
+def created_days_ago(user_id, v2_connection):
+    client = v2_connection
     date_format= "%Y-%m-%d"
     user = client.get_user(id=user_id,user_fields=["created_at"])
     date_today=time.strptime(str(date.today()),date_format)
