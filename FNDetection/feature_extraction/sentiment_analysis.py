@@ -1,4 +1,4 @@
-from feature_extraction.text_processing import tokenization, remove_urls, remove_mention, replace_slang, lemmatize
+from text_processing import tokenization, remove_urls, remove_mention, replace_slang, lemmatize
 from nltk import pos_tag
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
