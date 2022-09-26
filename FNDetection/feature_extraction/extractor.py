@@ -3,37 +3,42 @@ from sentiment_analysis import *
 from tweet_level import *
 from user_level import *
 from twitter_api import *
+import time
 import numpy as np
+import pandas as pd
+import numpy as np
+import csv
 
-def user_extraction(uid, v1_connection, v2_connection):
+
+def user_extraction(user, v2_conenction):
     #user_infos from twitter API
-    def_profile = default_profile(uid, v1_connection)
-    follower_count = followers_count(uid, v2_connection)
-    friend_count = friends_count(uid, v2_connection)
-    prof_back_tile = profile_background_tile(uid, v1_connection)
-    prof_use_back_image = profile_use_background_image(uid, v1_connection)
-    status_count = statuses_count(uid, v2_connection)
+    def_profile = default_profile(user)
+    follower_count = followers_count(user)
+    friend_count = friends_count(user)
+    prof_back_tile = profile_background_tile(user)
+    prof_use_back_image = profile_use_background_image(user)
+    status_count = statuses_count(user)
 
     #other user level_features
-    has_descrip = has_desc(uid, v2_connection)
-    desc_with_hashtags = desc_contains_hashtags(uid, v2_connection)
-    desc_with_user_mentions = desc_contains_user_mention(uid, v2_connection)
-    desc_with_url = desc_contains_url(uid, v2_connection)
-    desc_len = desc_length(uid, v2_connection)
-    url_len = url_lenght (uid, v2_connection)
-    friends_p_follower = friends_per_followers(uid, v2_connection)
-    is_follow_more = is_following_more_than_100(uid, v2_connection)
-    days_ago = created_days_ago(uid, v2_connection)
+    desc_with_hashtags = desc_contains_hashtags(user)
+    desc_with_user_mentions = desc_contains_user_mention(user, v2_conenction)
+    desc_with_url = desc_contains_url(user)
+    desc_len = desc_length(user)
+    url_len = url_lenght (user)
+    friends_p_follower = friends_per_followers(user)
+    is_follow_more = is_following_more_than_100(user)
+    days_ago = created_days_ago(user)
 
-    return [def_profile, follower_count, friend_count, prof_back_tile, prof_use_back_image, status_count,has_descrip, 
+    return [def_profile, follower_count, friend_count, prof_back_tile, prof_use_back_image, status_count, 
     desc_with_hashtags, desc_with_user_mentions, desc_with_url, desc_len, url_len, friends_p_follower,is_follow_more, days_ago]
     
-def tweet_extraction(text, tid, v1_connection, v2_connection):
+def tweet_extraction(tweet_status, tid, v2_connection):
+    text = get_tweet_text(tweet_status)
     #tweet_infos from twitter API
-    tweet_favourite_count =  favorite_count(tid, v1_connection)
-    possible_sensitive = possibly_sensitive(tid, v1_connection)
-    retweet_count = retweeted_count(tid, v1_connection)
-    trunc = truncated(tid, v1_connection)
+    tweet_favourite_count =  favorite_count(tweet_status)
+    possible_sensitive = possibly_sensitive(tweet_status)
+    retweet_count = retweeted_count(tweet_status)
+    trunc = truncated(tweet_status)
 
     #other tweet level_features
     numb_of_url = nr_of_urls(text)
@@ -41,7 +46,7 @@ def tweet_extraction(text, tid, v1_connection, v2_connection):
     url_just = url_only(text)
     num_of_hashtags = nr_of_hashtag(text)
     nr_of_media = num_of_media(tid,  v2_connection)
-    nr_of_user_mentions = num_of_usermention(text, v2_connection)
+    nr_of_user_mentions = num_of_usermention(text)
     nr_of_unicode_emoji = num_unicode_emoji(text)
     face_positive_emoji = contain_face_positive_emoji(text)
     face_negative_emoji = contain_face_negative_emoji(text)
@@ -59,11 +64,12 @@ def tweet_extraction(text, tid, v1_connection, v2_connection):
     face_neutral_emoji, nr_ascii_emoji, contain_stock_symbols, num_of_punctuation, ratio_punctuation_token,
     nr_of_excalamation_marks, num_of_question_marks, contains_character_repetitions]
 
-def content_extraction(text):
+def content_extraction(tweet_status):
+    text = get_tweet_text(tweet_status)
     #content_level featrues
     contain_number = contains_number(text)
     contain_quote = contains_quotes(text)
-    O_text = no_text(text)
+    O_text = no_text(text) 
     avg_word_len = avg_word_length(text)
     text_len = text_length(text)
     nr_of_words = nr_words_token(text)
@@ -85,7 +91,8 @@ def content_extraction(text):
     contain_uppercase_text, ratio_capitalized_word, ratio_all_capitalized_word, nr_of_sentences,nr_of_slang_words,
     ratio_adjective, ratio_noun, ratio_verb, contains_pronoun, ratio_stopword, contains_spelling_mistake]
 
-def sentiment_extraction(text):
+def sentiment_extraction(tweet_status):
+    text = get_tweet_text(tweet_status)
     #sentiment_level features
     sentiment_value = sentiment_score(text)
     num_pos_sentiment_words = nr_pos_sentiment_words(text)
@@ -93,19 +100,63 @@ def sentiment_extraction(text):
 
     return [sentiment_value, num_pos_sentiment_words, num_neg_sentiment_words]
 
-def extraction(tweet_ID, user_ID=None):
+def extraction(tweet_ID, v2_connection, v1_connection):
+     
+    user = get_utente(tweet_ID, v2_connection, v1_connection)
+    if(user == None):
+        print("tweet not found")
+        time.sleep(1)
+        return None
+    
+    tweet_status = get_tweet_status(tweet_ID, v1_connection)
+
+    return np.array(user_extraction(user, v2_connection) +  tweet_extraction(tweet_status, tweet_ID, v2_connection) + content_extraction(tweet_status)+ sentiment_extraction(tweet_status))
+    
+
+if __name__ == "__main__":
+    from tqdm import tqdm
+    path_fake = "./Sample/fake.csv"
+    path_real = "./Sample/genuine.csv"
+
+    df_fake = pd.read_csv(path_fake)
+    df_real = pd.read_csv(path_real)
+    data=[]
+    labels=[]
+
     v2_connection = api_v2_connection()
     v1_connection = api_v1_connection()
-    if user_ID == None:
-        uid=get_user_id(tweet_ID, v2_connection)
-    else:
-        uid = user_ID
-    
-    text = get_tweet_text(tweet_ID, v1_connection)
 
-    return np.array(user_extraction(uid, v1_connection, v2_connection) +  tweet_extraction(text, tweet_ID, v1_connection, v2_connection) + content_extraction(text)+ sentiment_extraction(text))
+    print("start fake loading")
+    with open("./train.csv", 'a') as f:
+        writer = csv.writer(f)
+        for i in (range(528, len(df_fake.index))):
+            row = df_fake.iloc[i]
+            sample = extraction(row['id'], v2_connection, v1_connection)
+            if(sample is not None):
+                np.append(sample, -1)
+                
+
+                writer.writerow(sample)
+                print(i)
+                time.sleep(0.5)
+
+    print("start real loading")
+    with open("./train.csv", 'a') as f:
+        writer = csv.writer(f)
+        for i in (range(len(df_real.index))):
+            row=df_real.iloc[i]
+            sample = extraction(row["id"], v2_connection, v1_connection)
+            if(sample is not None):
+                np.append(sample, 1)
+
+                writer.writerow(sample)
+                print(i)
+
     
+
     
+
+        
     
 
     
