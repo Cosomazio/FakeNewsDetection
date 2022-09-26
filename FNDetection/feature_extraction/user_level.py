@@ -10,9 +10,9 @@ def desc_contains_hashtags(user):
         return True
     return False
 
-def desc_contains_user_mention(user):
+def desc_contains_user_mention(user, v2_connection):
     desc = get_description(user)
-    result = num_of_usermention(desc, v2_connection)
+    result = num_of_usermention(desc)
     if result != 0:
         return True
     return False
@@ -28,8 +28,10 @@ def desc_length(user):
 
 def url_lenght(user):
     if hasattr(user, "url"):
-        return len(user.url)
-    else: 0
+        if user.url is not None:
+            return len(user.url)
+        else: return 0
+    else: return 0
 
 def friends_per_followers(user):
     friend=friends_count(user)
