@@ -29,7 +29,7 @@ def api_v2_connection():
 def get_utente(twid, v2_connection, v1_connection):
     tweet = v2_connection.get_tweet(twid, expansions=['author_id'])
     uid = tweet.data.author_id if tweet.data !=None else None
-    return v1_connection.get_user(user_id=uid)
+    return v1_connection.get_user(user_id=uid) if uid !=None else None
 
 def get_description(user):
     if hasattr(user, "description"):
