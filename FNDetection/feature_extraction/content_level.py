@@ -143,7 +143,7 @@ def nr_of_tokens(text):
 def num_of_slang_words(text):
     """ """
     count=0
-    with open("FNDetection/feature_extraction/resources/slang_words.json","r") as file:
+    with open("./feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
     text=tokenization(text) #cambiare con tokenizzazione e no contrazione
     for word in text:
@@ -221,7 +221,7 @@ def ratio_stopwords(text):
     toktext = replace_slang(toktext)
     
     wordslist = [w for w in toktext if w in stop_words]
-    print(wordslist)
+    #print(wordslist)
     return len(wordslist)/len(text)
 
 def miSpelling(text):
