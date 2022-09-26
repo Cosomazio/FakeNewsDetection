@@ -32,8 +32,6 @@ def nr_of_hashtag(text):
     """ counts the number of hashtags in the text"""
     return len(find_all_hashtags(text))
 
-def nr_of_popular_hashtag(text):
-    pass
 
 def nr_of_punctuation(text):
     """returns the number of punctuation characters used in the actual text of a tweet"""
@@ -55,7 +53,7 @@ def ratio_of_punctuation(text):
     if(len(text)==0):
         return 0
     somma=nr_of_punctuation(text)
-    print(somma, len(tokenization(text)), tokenization(text))
+    #print(somma, len(tokenization(text)), tokenization(text))
     return round(somma/len(tokenization(text)), 3)
 
 def nr_of_exclamation_marks(text):
@@ -95,7 +93,7 @@ def character_repetitions(text):
 def num_ascii_emoji(text):
     count = 0
     checked_emoji=list()
-    filepath="FNDetection/feature_extraction/resources/ascii_emojis.json"
+    filepath="./feature_extraction/resources/ascii_emojis.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for emoji in data:
@@ -110,7 +108,7 @@ def num_ascii_emoji(text):
     return count
 
 def contain_face_positive_emoji(text):
-    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
 
@@ -122,7 +120,7 @@ def contain_face_positive_emoji(text):
     return False
 
 def contain_face_negative_emoji(text):
-    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for emoji in data["face-negative"]:
@@ -133,7 +131,7 @@ def contain_face_negative_emoji(text):
     return False
 
 def contain_face_neutral_emoji(text):
-    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for emoji in data["face-neutral"]:
@@ -145,7 +143,7 @@ def contain_face_neutral_emoji(text):
 
 def num_unicode_emoji(text):
     count = 0
-    filepath="FNDetection/feature_extraction/resources/emoji_map.json"
+    filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for el in data:
@@ -160,20 +158,23 @@ def num_of_media(tweet_id, v2_connection):
     """return the num of media in the tweet"""
     connection = v2_connection
     tweet = connection.get_tweet(tweet_id,tweet_fields=["attachments"])
-    return len(tweet.data.attachments["media_keys"])
+    if hasattr(tweet.data.attachments, "media_keys"):
+        return len(tweet.data.attachments["media_keys"])
+    else:
+        return 0
 
-def num_of_usermention(text, v2_connection):
+def num_of_usermention(text):
     """return the num of usermention"""
     count = 0
     text = text.split()
     for el in text:
         if '@' in el:
-            username=word_tokenize(el.split("@")[-1])[0]
-            print(username)
-            client = v2_connection
-            user = client.get_user(username=username)
-            #print(user.data)
-            if user.data != None : count+=1
+            splitted = el.split("@")
+            splitted = [el for el in splitted if el != ""]
+            if len(splitted)==0:
+                return 0
+            username=word_tokenize(splitted[-1])[0]
+            if username!= "" : count+=1
     return count
 
 
