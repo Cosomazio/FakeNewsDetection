@@ -32,7 +32,7 @@ def nr_pos_sentiment_words(text):
         return 0.5
     token_text = tokenization(text)
     token_text = replace_slang(token_text)
-    print(token_text)
+    #print(token_text)
     wordslist = [w.split()[-1] for w in token_text if len(w.split())>0]
 
     tagged = pos_tag(wordslist)
