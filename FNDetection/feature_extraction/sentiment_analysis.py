@@ -15,6 +15,8 @@ def sentiment_score(text):
     token_text = tokenization(text)
     token_text = replace_slang(token_text)
     wordslist = [w.split()[-1] for w in token_text if len(w.split())>0]
+    if len(wordslist)==0:
+        return  0
 
     tagged = pos_tag(wordslist)
     score=0
