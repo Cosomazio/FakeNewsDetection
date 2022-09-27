@@ -114,7 +114,6 @@ def extraction(tweet_ID, v2_connection, v1_connection):
     
 
 if __name__ == "__main__":
-    from tqdm import tqdm
     path_fake = "./Sample/fake.csv"
     path_real = "./Sample/genuine.csv"
 
@@ -129,16 +128,13 @@ if __name__ == "__main__":
     print("start fake loading")
     with open("./train.csv", 'a') as f:
         writer = csv.writer(f)
-        for i in (range(528, len(df_fake.index))):
+        for i in (range(len(df_fake.index))):
             row = df_fake.iloc[i]
             sample = extraction(row['id'], v2_connection, v1_connection)
             if(sample is not None):
-                np.append(sample, -1)
-                
-
+                sample = np.append(sample, -1)
                 writer.writerow(sample)
                 print(i)
-                time.sleep(0.5)
 
     print("start real loading")
     with open("./train.csv", 'a') as f:
@@ -147,7 +143,7 @@ if __name__ == "__main__":
             row=df_real.iloc[i]
             sample = extraction(row["id"], v2_connection, v1_connection)
             if(sample is not None):
-                np.append(sample, 1)
+                sample = np.append(sample, 1)
 
                 writer.writerow(sample)
                 print(i)
