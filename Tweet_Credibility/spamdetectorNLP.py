@@ -7,6 +7,7 @@ import os
 from emoji import is_emoji #pip install emoji
 
 
+#Commento
 
 def max_count_uppercase(text, maxCount=5):
     count_upp=0
