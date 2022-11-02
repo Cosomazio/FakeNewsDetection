@@ -26,7 +26,7 @@ def remove_mention(text):
     return text
 
 def replace_slang(tokenized_text):
-    with open("./TweetCredibility/feature_extraction/resources/slang_words.json","r") as file:
+    with open("./Tweet_Credibility/feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
     
     for word in tokenized_text:
@@ -46,7 +46,7 @@ def remove_emoji(text):
         if emoji.is_emoji(el):
             text = text.replace(el,'')
     
-    with open("./TweetCredibility/feature_extraction/resources/ascii_emojis.json", 'r') as file:
+    with open("./Tweet_Credibility/feature_extraction/resources/ascii_emojis.json", 'r') as file:
         emojis=json.load(file)
     
     for el in emojis:

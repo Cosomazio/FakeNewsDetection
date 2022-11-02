@@ -93,7 +93,7 @@ def character_repetitions(text):
 def num_ascii_emoji(text):
     count = 0
     checked_emoji=list()
-    filepath="./feature_extraction/resources/ascii_emojis.json"
+    filepath="./Twitter_Credibility/feature_extraction/resources/ascii_emojis.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for emoji in data:
@@ -108,7 +108,7 @@ def num_ascii_emoji(text):
     return count
 
 def contain_face_positive_emoji(text):
-    filepath="./feature_extraction/resources/emoji_map.json"
+    filepath="./Twitter_Credibility/feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
 
@@ -120,7 +120,7 @@ def contain_face_positive_emoji(text):
     return False
 
 def contain_face_negative_emoji(text):
-    filepath="./feature_extraction/resources/emoji_map.json"
+    filepath="./Twitter_Credibility/feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for emoji in data["face-negative"]:
@@ -131,7 +131,7 @@ def contain_face_negative_emoji(text):
     return False
 
 def contain_face_neutral_emoji(text):
-    filepath="./feature_extraction/resources/emoji_map.json"
+    filepath="./Twitter_Credibility/feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for emoji in data["face-neutral"]:
@@ -143,7 +143,7 @@ def contain_face_neutral_emoji(text):
 
 def num_unicode_emoji(text):
     count = 0
-    filepath="./feature_extraction/resources/emoji_map.json"
+    filepath="./Twitter_Credibility/feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
     for el in data:

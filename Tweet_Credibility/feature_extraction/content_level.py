@@ -143,7 +143,7 @@ def nr_of_tokens(text):
 def num_of_slang_words(text):
     """ """
     count=0
-    with open("./feature_extraction/resources/slang_words.json","r") as file:
+    with open(".Twitter_Credibility/feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
     text=tokenization(text) #cambiare con tokenizzazione e no contrazione
     for word in text:

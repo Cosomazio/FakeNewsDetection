@@ -28,7 +28,7 @@ def isSpamXGB(testo):
     x = np.array(feature, dtype="int").reshape((1,len(feature)))
     #print(x.shape)
     model = XGBClassifier()
-    model.load_model("./TweetCredibility/spamdetector.json")
+    model.load_model("./Tweet_Credibility/spamdetector.json")
     pred = model.predict(x)
     return True if pred == 0 else False
 

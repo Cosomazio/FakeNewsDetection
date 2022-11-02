@@ -40,7 +40,7 @@ def credibility_score(tweet_id):
     X_test = features(tweet_id)
     x_test = np.array(X_test,dtype="float").reshape((1,21))
 
-    model = pickle.load(open("./TweetCredibility/regressor",'rb'))
+    model = pickle.load(open("./Tweet_Credibility/regressor",'rb'))
     
     y_pred = model.predict(x_test)
     return y_pred

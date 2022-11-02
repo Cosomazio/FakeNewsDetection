@@ -84,7 +84,7 @@ def num_of_emoji(text):
             #print("found")
             count+=1
 
-    with open("./TweetCredibility/feature_extraction/resources/emoji_map.json", 'r') as file:
+    with open("./Tweet_Credibility/feature_extraction/resources/emoji_map.json", 'r') as file:
         emojis=json.load(file)
     #print(text.split())
     for el in emojis:
