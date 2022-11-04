@@ -22,11 +22,11 @@ if __name__=="__main__":
         sys.exit(-1)
         
     fv=fv.reshape(1, 57)
-    prediction = model.predict(fv)
+    prediction = model.predict(fv)[-1]
     if(prediction==1):
         sys.exit(10)
         
     else:
-        sys.exit(-10)
+        sys.exit(5)
 
     
