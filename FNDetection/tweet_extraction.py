@@ -45,5 +45,5 @@ if __name__ == "__main__":
 
         print(Tweet(text, user, userimage, medias).toJSON())
     except:
-        sys.exit(-1)
+        sys.exit(3)
     
