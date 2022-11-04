@@ -21,6 +21,7 @@ class Tweet:
         return json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=False)
 
+""" this module returns the JSON representation of a tweet for visualization purposes"""
 if __name__ == "__main__":
     id = argv[1]
     v1_conn = api_v1_connection()
@@ -35,8 +36,13 @@ if __name__ == "__main__":
             medias = [el['media_url_https'] for el in status.entities['media'][:]]
         else:
             medias =[]
-        #print(medias)
-        text=re.sub(r' https://t.co/\w{10}', '', status.text)
+
+        if "full_text" in status._json:
+            text = status._json['full_text']
+        else:
+            text = status.text
+        text=re.sub(r' https://t.co/\w{10}', '', text)
+
         print(Tweet(text, user, userimage, medias).toJSON())
     except:
         sys.exit(-1)
