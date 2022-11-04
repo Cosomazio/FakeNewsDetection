@@ -1,14 +1,16 @@
-from text_processing import tokenization, remove_urls, remove_mention, replace_slang, lemmatize
+from feature_extraction.text_processing import tokenization, remove_urls, remove_mention, replace_slang, lemmatize
 from nltk import pos_tag
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 def word_score(word):
+    """computes the sentiment score of a single word"""
     analyzer = SentimentIntensityAnalyzer()
     pos_score = analyzer.polarity_scores(word)['pos']
     neg_score = analyzer.polarity_scores(word)['neg']
     return ((pos_score-neg_score)+1)/2
 
 def sentiment_score(text):
+    """computest the sentiment score of a text averagin the sentiment score of single words"""
     text = remove_mention(remove_urls(text))
     if(len(text)==0):
         return 0.5
@@ -29,6 +31,7 @@ def sentiment_score(text):
     return score
 
 def nr_pos_sentiment_words(text):
+    """ counts the number of positive sentiment words"""
     text = remove_mention(remove_urls(text))
     if(len(text)==0):
         return 0.5
@@ -48,6 +51,7 @@ def nr_pos_sentiment_words(text):
     return count
 
 def nr_neg_sentiment_words(text):
+    """ counts the number of negative sentiment words """
     text = remove_mention(remove_urls(text))
     if(len(text)==0):
         return 0.5

@@ -1,15 +1,15 @@
-from content_level import *
-from sentiment_analysis import *
-from tweet_level import *
-from user_level import *
-from twitter_api import *
+from feature_extraction.content_level import *
+from feature_extraction.sentiment_analysis import *
+from feature_extraction.tweet_level import *
+from feature_extraction.user_level import *
+from feature_extraction.twitter_api import *
 import time
 import numpy as np
 import pandas as pd
 import numpy as np
 import csv
 
-
+""" this function extracts all the user-related features"""
 def user_extraction(user, v2_conenction):
     #user_infos from twitter API
     def_profile = default_profile(user)
@@ -31,7 +31,8 @@ def user_extraction(user, v2_conenction):
 
     return [def_profile, follower_count, friend_count, prof_back_tile, prof_use_back_image, status_count, 
     desc_with_hashtags, desc_with_user_mentions, desc_with_url, desc_len, url_len, friends_p_follower,is_follow_more, days_ago]
-    
+
+"""extracts all the tweet-related features"""
 def tweet_extraction(tweet_status, tid, v2_connection):
     text = get_tweet_text(tweet_status)
     #tweet_infos from twitter API
@@ -64,6 +65,7 @@ def tweet_extraction(tweet_status, tid, v2_connection):
     face_neutral_emoji, nr_ascii_emoji, contain_stock_symbols, num_of_punctuation, ratio_punctuation_token,
     nr_of_excalamation_marks, num_of_question_marks, contains_character_repetitions]
 
+"""extracts all the content-related features"""
 def content_extraction(tweet_status):
     text = get_tweet_text(tweet_status)
     #content_level featrues
@@ -91,6 +93,7 @@ def content_extraction(tweet_status):
     contain_uppercase_text, ratio_capitalized_word, ratio_all_capitalized_word, nr_of_sentences,nr_of_slang_words,
     ratio_adjective, ratio_noun, ratio_verb, contains_pronoun, ratio_stopword, contains_spelling_mistake]
 
+""" extracts all the sentiment-related features"""
 def sentiment_extraction(tweet_status):
     text = get_tweet_text(tweet_status)
     #sentiment_level features
@@ -100,8 +103,8 @@ def sentiment_extraction(tweet_status):
 
     return [sentiment_value, num_pos_sentiment_words, num_neg_sentiment_words]
 
+""" given a Tweet ID return the corresponding feature vector"""
 def extraction(tweet_ID, v2_connection, v1_connection):
-     
     user = get_utente(tweet_ID, v2_connection, v1_connection)
     if(user == None):
         print("tweet not found")
@@ -109,10 +112,15 @@ def extraction(tweet_ID, v2_connection, v1_connection):
         return None
     
     tweet_status = get_tweet_status(tweet_ID, v1_connection)
-
-    return np.array(user_extraction(user, v2_connection) +  tweet_extraction(tweet_status, tweet_ID, v2_connection) + content_extraction(tweet_status)+ sentiment_extraction(tweet_status))
+    
+    userf = (user_extraction(user, v2_connection))
+    tweetf = tweet_extraction(tweet_status, tweet_ID, v2_connection)
+    contentf =content_extraction(tweet_status)
+    sentf = (sentiment_extraction(tweet_status))
+    return np.array(userf + tweetf + contentf + sentf)
     
 
+""" used to generate the test set from genuine and fake tweets"""
 if __name__ == "__main__":
     path_fake = "./Sample/fake.csv"
     path_real = "./Sample/genuine.csv"
@@ -126,7 +134,7 @@ if __name__ == "__main__":
     v1_connection = api_v1_connection()
 
     print("start fake loading")
-    with open("./train.csv", 'a') as f:
+    with open("./test.csv", 'a') as f:
         writer = csv.writer(f)
         for i in (range(len(df_fake.index))):
             row = df_fake.iloc[i]
@@ -137,7 +145,7 @@ if __name__ == "__main__":
                 print(i)
 
     print("start real loading")
-    with open("./train.csv", 'a') as f:
+    with open("./test.csv", 'a') as f:
         writer = csv.writer(f)
         for i in (range(len(df_real.index))):
             row=df_real.iloc[i]
@@ -147,27 +155,3 @@ if __name__ == "__main__":
 
                 writer.writerow(sample)
                 print(i)
-
-    
-
-    
-
-        
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-
-    
-
-
-

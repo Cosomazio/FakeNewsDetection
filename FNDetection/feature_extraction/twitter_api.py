@@ -31,40 +31,51 @@ def get_utente(twid, v2_connection, v1_connection):
     uid = tweet.data.author_id if tweet.data !=None else None
     return v1_connection.get_user(user_id=uid) if uid !=None else None
 
+""" gets the description of the given user """
 def get_description(user):
     if hasattr(user, "description"):
         return user.description
     else: return ""
 
+""" return the status representation of the tweet defined by the given id"""
 def get_tweet_status(twid, v1_connection):
-    status = v1_connection.get_status(twid)
+    status = v1_connection.get_status(twid, tweet_mode="extended")
     return status
-    
-def get_tweet_text(tweet):
-    if hasattr(tweet, "text"):
-        return tweet.text
-    return "" 
 
+""" return the text from the given tweet status"""
+def get_tweet_text(tweet):
+    if hasattr(tweet, "full_text"):
+        return tweet.full_text
+    elif hasattr(tweet, "text"):
+        return tweet.text
+    else:
+        return "" 
+
+""" returns the number of follower of the given user"""
 def followers_count(user):
     if hasattr(user, "followers_count"):
         return user.followers_count
     else: return 0
 
+""" returns the number of friends of the given user"""
 def friends_count(user):
     if hasattr(user, "friends_count"):
         return user.friends_count
     else: return 0
 
+"""returns the number of statuses posted by the given user"""
 def statuses_count(user):
     if hasattr(user, "statuses_count"):
         return user.statuses_count
     else: return 0
 
+""" verifies if the given user is verified"""
 def verified(user):
     if hasattr(user, "verified"):
         return user.verified
     else: return False
 
+""" verifies if the given user has default profile"""
 def default_profile(user):
     if hasattr(user, "default_profile"):
         return user.default_profile
@@ -75,27 +86,31 @@ def profile_background_tile(user):
         return user.profile_background_tile
     else: return False
 
+""" verifies if the given user has changed their background image"""
 def profile_use_background_image(user):
     if hasattr(user, "profile_use_background_image"):
         return user.profile_use_background_image
     else: return False
 
-
+""" returns the favourite count of the given tweet"""
 def favorite_count(tweet_status):
     if hasattr(tweet_status, "favorite_count"):
         return tweet_status.favorite_count
     else: return 0
 
+""" returns the number of retweet of the given tweet status"""
 def retweeted_count(tweet_status):
     if hasattr(tweet_status, "retweet_count"):
         return tweet_status.retweet_count
     else: return 0
 
+""" verifies if the tweet is truncated"""
 def truncated(tweet_status):
     if hasattr(tweet_status, "truncated"):
         return tweet_status.truncated
     else: return False
 
+""" verifies if the tweet is possibly sensitive"""
 def possibly_sensitive(tweet_status):
     if hasattr(tweet_status, "possibly_sensitive"):
         return tweet_status.possibly_sensitive

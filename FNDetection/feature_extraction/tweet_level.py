@@ -1,7 +1,7 @@
 import re
 import string
 import json
-from content_level import *
+from feature_extraction.content_level import *
 from nltk.tokenize import word_tokenize
 
 def nr_of_urls(text):
@@ -91,6 +91,7 @@ def character_repetitions(text):
         return False
 
 def num_ascii_emoji(text):
+    """ counts how many ascii emoji are present in the given text"""
     count = 0
     checked_emoji=list()
     filepath="./feature_extraction/resources/ascii_emojis.json"
@@ -108,6 +109,7 @@ def num_ascii_emoji(text):
     return count
 
 def contain_face_positive_emoji(text):
+    """ verifies if the given text contains face positive emojis """
     filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
@@ -120,6 +122,7 @@ def contain_face_positive_emoji(text):
     return False
 
 def contain_face_negative_emoji(text):
+    """ verifies if the given text contains face negative emojis """
     filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
@@ -131,6 +134,7 @@ def contain_face_negative_emoji(text):
     return False
 
 def contain_face_neutral_emoji(text):
+    """ verifies if the given text contains face neutral emoji """
     filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:
         data = json.load(f)
@@ -142,6 +146,7 @@ def contain_face_neutral_emoji(text):
     return False
 
 def num_unicode_emoji(text):
+    """ counts how many unicode emojis are present in the given text"""
     count = 0
     filepath="./feature_extraction/resources/emoji_map.json"
     with open(filepath,'r') as f:

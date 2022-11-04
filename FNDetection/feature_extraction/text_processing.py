@@ -6,6 +6,8 @@ import emoji
 from nltk.tokenize import regexp_tokenize
 
 def lemmatize(token, pos_tag):
+    """utility that convert lemmatization labels into others comprehensible to the standard lemmatizer and returns
+    the lemmatized versione of that token"""
     if pos_tag == 'J':
         pos_tag='a'
     elif pos_tag == 'N':
@@ -22,10 +24,12 @@ def lemmatize(token, pos_tag):
 
 #to change when tweepy works
 def remove_mention(text):
+    """ removes those user mentions present in the given text"""
     text = re.sub('(@[^\s]+)','',text)
     return text
 
 def replace_slang(tokenized_text):
+    """replaces slang words in the given tokenized text"""
     with open("./feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
     
@@ -42,6 +46,7 @@ def remove_punctuation(text):
     return text
 
 def remove_emoji(text):
+    """ removes ascii emoji and unicode emoji from a given text"""
     for el in text:
         if emoji.is_emoji(el):
             text = text.replace(el,'')
@@ -73,13 +78,14 @@ def find_all_hashtags(text):
         return result
 
 def clearText(text):
+    """ removes emojis, user mentions, urls and punctuation from the given text"""
     text = remove_emoji(text)
     text = remove_mention(text)
     text = remove_urls(text) 
     return remove_punctuation(text)
 
 def tokenization(text):
-    #sistemare la tokenizzazione
+    """tokenization of the given text"""
     regexp=r"[\w']+|["
     for el in emoji.unicode_codes.data_dict.EMOJI_DATA:
         regexp+=el
@@ -89,6 +95,7 @@ def tokenization(text):
     return text
 
 def replace_contractions(text):
+    """replaves contractions in the given text with the its extended english version"""
     st=""
     text = text.split()
     for el in text:

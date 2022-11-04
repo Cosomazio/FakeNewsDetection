@@ -3,19 +3,19 @@ import emoji
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 from nltk import pos_tag
-from text_processing import *
+from feature_extraction.text_processing import *
 
 from spellchecker import SpellChecker
 
 def contains_number(text):
-    """ """
+    """ verify if the text given in input contains numbers """
     for word in text:
         if word.isdigit():
             return True
     return False
 
 def contains_quotes(text):
-    """ """
+    """verify if the given text contains quotes """
     up=False
     down=False
     for i in range(len(text)//2):
@@ -26,7 +26,7 @@ def contains_quotes(text):
     return up & down
 
 def no_text(text):
-    """ """
+    """contains if the given text, after deleting emojis, urls and mentions still contains text """
     text = clearText(text)
     text = text.split()
     if len(text) == 0:
@@ -35,12 +35,12 @@ def no_text(text):
         return False
 
 def avg_word_length(text):
-    """ """
+    """ computes the average length between the words in the given text """
     sum = 0
     text = clearText(text)
+    text = text.split()
     if(len(text)==0):
         return 0
-    text = text.split()
     for word in text:
         current_sum=0
         current_sum+=len(word)
@@ -98,6 +98,8 @@ def ratio_capitalized_words(text):
     text=clearText(text)
     sum=leng=0
     text = text.split()
+    if len(text)==0:
+        return 0
     for word in text:
         leng+=len(word)
         if word == word.upper():
@@ -112,6 +114,8 @@ def ratio_all_capitalized_words(text):
     text = clearText(text)
     sum=leng=0
     text=text.split()
+    if(len(text)==0):
+        return 0
 
     for word in text:
         leng+=len(word)
@@ -141,7 +145,7 @@ def nr_of_tokens(text):
     return len(tokenization(text)) #cambiare il tokenizzatore
 
 def num_of_slang_words(text):
-    """ """
+    """ counts how many words are salgn words"""
     count=0
     with open("./feature_extraction/resources/slang_words.json","r") as file:
         data = json.load(file)
@@ -152,7 +156,7 @@ def num_of_slang_words(text):
     return count
 
 def ratio_adjectives(text):
-    """ """
+    """ computes the ratio of adjectives after pos-tagging in the given text """
     count = 0
     text = clearText(text)
 
@@ -167,7 +171,7 @@ def ratio_adjectives(text):
     return count/len(wordslist)
 
 def ratio_verbs(text):
-    """ """
+    """computes the ratio of verbs after pos-tagging in the given text """
     count = 0
     text = clearText(text)
 
@@ -182,7 +186,7 @@ def ratio_verbs(text):
     return count/len(wordslist)
 
 def ratio_nouns(text):
-    """ """
+    """computes the ratio of nouns after pos-tagging in the given text """
     count = 0
     text = clearText(text)
     
@@ -198,7 +202,7 @@ def ratio_nouns(text):
     return count/len(wordslist)
 
 def contains_pronouns(text):
-    """ """
+    """computes the ratio of pronouns after pos-tagging in the given text """
     text = clearText(text)
 
     toktext = tokenization(text)
@@ -213,7 +217,7 @@ def contains_pronouns(text):
     return False
 
 def ratio_stopwords(text):
-    """ """
+    """ computes the ratio of stopwords in the given text"""
     text = clearText(text)
     stop_words = set(stopwords.words('english'))
 
@@ -225,7 +229,7 @@ def ratio_stopwords(text):
     return len(wordslist)/len(text)
 
 def miSpelling(text):
-    """ """
+    """ verify if the given text containssome mispelling """
     spell=SpellChecker()
     text = remove_emoji(text)
     text = remove_mention(text)

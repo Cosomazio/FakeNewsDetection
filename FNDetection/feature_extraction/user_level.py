@@ -1,15 +1,17 @@
-from twitter_api import *
-from tweet_level import *
+from feature_extraction.twitter_api import *
+from feature_extraction.tweet_level import *
 import time
 import datetime
 from datetime import date
 
+""" verifies if the user description contains hashtags"""
 def desc_contains_hashtags(user):
     result = nr_of_hashtag(get_description(user))
-    if result:
+    if result>0:
         return True
     return False
 
+""" verifies if the user description contains user mentions"""
 def desc_contains_user_mention(user, v2_connection):
     desc = get_description(user)
     result = num_of_usermention(desc)
@@ -17,15 +19,18 @@ def desc_contains_user_mention(user, v2_connection):
         return True
     return False
 
+""" verifies if the user description contains urls"""
 def desc_contains_url(user):
     result = nr_of_urls(get_description(user))
     if result != 0:
         return True
     return False
 
+""" returns the length of the user description """
 def desc_length(user):
     return len(get_description(user))
 
+""" return the length of the url describing the given user"""
 def url_lenght(user):
     if hasattr(user, "url"):
         if user.url is not None:
@@ -33,14 +38,17 @@ def url_lenght(user):
         else: return 0
     else: return 0
 
+""" computes the ratio between followers and friends for the given user"""
 def friends_per_followers(user):
     friend=friends_count(user)
     follow=followers_count(user)
     return round(friend/follow,5) if follow != 0 else 0
 
+""" verifies if the user follows more than 100 accounts"""
 def is_following_more_than_100(user):
     return True if followers_count(user) >= 100 else False
 
+""" computes the number of days since this account was created"""
 def created_days_ago(user):
     date_format= "%Y-%m-%d"
     date_today=time.strptime(str(date.today()),date_format)
