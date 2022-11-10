@@ -2,6 +2,7 @@ pip install pyspellchecker
 pip install emoji
 pip install nltk
 pip install vaderSentiment
+pip install networkx
 
 import nltk
 nltk.download("stopwords")
