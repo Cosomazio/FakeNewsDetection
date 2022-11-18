@@ -1,5 +1,5 @@
-{"type": "node", "labels": ["Kaduna, Nigeria"], "properties": {"coordinates": [7.4359863, 10.5182899]}},
-{"type": "node", "labels": ["Kampala, Uganda"], "properties": {"coordinates": [32.5813539, 0.3177137]}},
-{"type": "node", "labels": ["Ngong, Kenya"], "properties": {"coordinates": [36.65, -1.3666]}},
-{"type": "node", "labels": ["Nigeria"], "properties": {"coordinates": [7.9999721, 9.6000359]}},
-{"type": "node", "labels": ["Oklahoma, USA"], "properties": {"coordinates": [-97.2684063, 34.9550817]}}
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [36.6880794, -3.3696827], "name": "Arusha, Tanzania"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [35.2715481, 0.5198329], "name": "Eldoret, Kenya"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [30.573737377548046, -0.4180848], "name": "Mbarara, Uganda"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [-77.5872112, 39.968702], "name": "Scotland, PA"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [7.4359863, 10.5182899],"name":"Kaduna, Nigeria"}}
