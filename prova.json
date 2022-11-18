@@ -1,7 +1,5 @@
-[
-    {"type": "node", "labels": ["Kaduna, Nigeria"], "properties": {"coordinates": [7.4359863, 10.5182899]}},
-    {"type": "node", "labels": ["Kampala, Uganda"], "properties": {"coordinates": [32.5813539, 0.3177137]}},
-    {"type": "node", "labels": ["Ngong, Kenya"], "properties": {"coordinates": [36.65, -1.3666]}},
-    {"type": "node", "labels": ["Nigeria"], "properties": {"coordinates": [7.9999721, 9.6000359]}},
-    {"type": "node", "labels": ["Oklahoma, USA"], "properties": {"coordinates": [-97.2684063, 34.9550817]}}
-    ]
+{"type": "node", "labels": ["Kaduna, Nigeria"], "properties": {"coordinates": [7.4359863, 10.5182899]}},
+{"type": "node", "labels": ["Kampala, Uganda"], "properties": {"coordinates": [32.5813539, 0.3177137]}},
+{"type": "node", "labels": ["Ngong, Kenya"], "properties": {"coordinates": [36.65, -1.3666]}},
+{"type": "node", "labels": ["Nigeria"], "properties": {"coordinates": [7.9999721, 9.6000359]}},
+{"type": "node", "labels": ["Oklahoma, USA"], "properties": {"coordinates": [-97.2684063, 34.9550817]}}
