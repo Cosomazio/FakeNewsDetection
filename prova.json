@@ -1,5 +1,5 @@
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [36.6880794, -3.3696827], "name": "Arusha, Tanzania"}},
-{"type": "node", "labels": ["Tweet1"], "properties": {"coordinates": [35.2715481, 0.5198329], "name": "Eldoret, Kenya"}},
-{"type": "node", "labels": ["Tweet2"], "properties": {"coordinates": [30.573737377548046, -0.4180848], "name": "Mbarara, Uganda"}},
-{"type": "node", "labels": ["Tweet3"], "properties": {"coordinates": [-77.5872112, 39.968702], "name": "Scotland, PA"}},
-{"type": "node", "labels": ["Tweet4"], "properties": {"coordinates": [7.4359863, 10.5182899],"name":"Kaduna, Nigeria"}}
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [35.2715481, 0.5198329], "name": "Eldoret, Kenya"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [30.573737377548046, -0.4180848], "name": "Mbarara, Uganda"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [-77.5872112, 39.968702], "name": "Scotland, PA"}},
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [7.4359863, 10.5182899],"name":"Kaduna, Nigeria"}}
