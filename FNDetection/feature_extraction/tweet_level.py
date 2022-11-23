@@ -28,7 +28,7 @@ def __nr_of_exclamation_marks(text):
     return somma
 
 def contains_exclamations_marks(text):
-    return 1 if len(__nr_of_exclamation_marks(text))>0 else 0
+    return 1 if __nr_of_exclamation_marks(text)>0 else 0
 
 def __nr_of_question_marks(text):
     """ counts the number of question marks that are present in the string"""
@@ -39,7 +39,7 @@ def __nr_of_question_marks(text):
     return somma
 
 def contains_question_marks(text):
-    return 1 if len(__nr_of_question_marks(text))>0 else 0
+    return 1 if __nr_of_question_marks(text)>0 else 0
 
 def contains_multi_q_e(text):
     1 if __nr_of_question_marks(text) > 1 or __nr_of_exclamation_marks(text) > 1 else 0
@@ -62,7 +62,7 @@ def __num_of_media(tweet_id, v2_connection):
         return 0
 
 def contains_media(tweet_id, v2_connection):
-    return 1 if len(__num_of_media(tweet_id, v2_connection)) > 0 else 0
+    return 1 if __num_of_media(tweet_id, v2_connection) > 0 else 0
 
 def __num_of_usermention(text):
     """return the num of usermention"""
@@ -79,7 +79,7 @@ def __num_of_usermention(text):
     return count
 
 def contains_mention(text):
-    return 1 if len(__num_of_usermention(text))>0 else 0
+    return 1 if __num_of_usermention(text)>0 else 0
 
 if __name__=="__main__":
     text="@playbingobash Gems are sparkling everywhere! in #BingoBash!!! http://bash.gg/1Y35AQ0"
