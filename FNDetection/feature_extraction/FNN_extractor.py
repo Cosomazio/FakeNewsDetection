@@ -26,10 +26,10 @@ if __name__ == "__main__":
     
     with open(write_to_path, 'a') as f:
         writer = csv.writer(f, lineterminator="\n")
-        for i in range(6152, len(ids)):
+        for i in range(len(ids)):
 
             sample = extraction(ids[i][0], v2_connection, v1_connection)
             if(sample is not None):
                 sample = np.append(sample, -1)
-                writer.writerow(sample, )
+                writer.writerow(sample)
                 print(i)

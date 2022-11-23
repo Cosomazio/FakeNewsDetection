@@ -42,17 +42,20 @@ def remove_punctuation(text):
     """removes punctuation for the text"""
     punteggiatura = list(string.punctuation) + ['’', '…', '‘', '“', '”']
     for c in punteggiatura:
-        text = text.replace(c,' ')
+        text = text.replace(c,'')
     return text
 
-def remove_emoji(text):
+def remove_emoji(text, path=None):
     """ removes ascii emoji and unicode emoji from a given text"""
     for el in text:
         if emoji.is_emoji(el):
             text = text.replace(el,'')
-    
-    with open("./feature_extraction/resources/ascii_emojis.json", 'r') as file:
-        emojis=json.load(file)
+    if(path is None):
+        with open("./feature_extraction/resources/ascii_emojis.json", 'r') as file:
+            emojis=json.load(file)
+    else:
+        with open(path, 'r') as file:
+            emojis=json.load(file)
     
     for el in emojis:
         if el in text:
@@ -92,6 +95,7 @@ def tokenization(text):
     regexp+="]|[^a-zA-Z]{1,3}"
 
     text = regexp_tokenize(text, regexp)
+    text = [el for el in text if el !=' ']
     return text
 
 def replace_contractions(text):

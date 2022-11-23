@@ -2,11 +2,11 @@ import tweepy
 
 """ autenticazione quando viene abilitato l'accesso elevated"""
 def api_v1_connection():
-    consumer_key = "" 
-    consumer_secret = ""
+    consumer_key = "RkiLe7ecmNpXudVIbZFxpmlyY" 
+    consumer_secret = "SIW5SfYEN0BZvg9t9iBqiiRXAiZgonnk57QV9vNlvpXzp7ovAm"
 
-    access_token = ""
-    access_token_secret= ""
+    access_token = "1567779884130344960-WczEo42lWdnqFvwqO1YJCJLpirAvVH"
+    access_token_secret= "5xu4kMepXd6LW7rM5h0WWDkcAXu3wnx8WqpavCJhxzSFd"
     auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
     auth.set_access_token(access_token,access_token_secret)
     api = tweepy.API(auth, wait_on_rate_limit=True)
@@ -15,12 +15,12 @@ def api_v1_connection():
 
 """accesso per api v2 attraverso client"""
 def api_v2_connection():
-    bearer_token = ""
-    consumer_key = "" 
-    consumer_secret = ""
+    bearer_token = "AAAAAAAAAAAAAAAAAAAAADYwhgEAAAAAJFMXr4X9NWOvpZyHNN2RSumYt4A%3D5yvBrW4XPKfCx3gLTxOenpqdNhUVjjYMzuWv2zYQssyddGtMLm"
+    consumer_key = "RkiLe7ecmNpXudVIbZFxpmlyY" 
+    consumer_secret = "SIW5SfYEN0BZvg9t9iBqiiRXAiZgonnk57QV9vNlvpXzp7ovAm"
 
-    access_token = ""
-    access_token_secret= ""
+    access_token = "1567779884130344960-WczEo42lWdnqFvwqO1YJCJLpirAvVH"
+    access_token_secret= "5xu4kMepXd6LW7rM5h0WWDkcAXu3wnx8WqpavCJhxzSFd"
     client = tweepy.Client(bearer_token=bearer_token,consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token, access_token_secret=access_token_secret, wait_on_rate_limit=True)
     
     return client
@@ -81,42 +81,11 @@ def default_profile(user):
         return user.default_profile
     else: return False
 
-def profile_background_tile(user):
-    if hasattr(user, "profile_background_tile"):
-        return user.profile_background_tile
-    else: return False
-
 """ verifies if the given user has changed their background image"""
 def profile_use_background_image(user):
     if hasattr(user, "profile_use_background_image"):
         return user.profile_use_background_image
     else: return False
-
-""" returns the favourite count of the given tweet"""
-def favorite_count(tweet_status):
-    if hasattr(tweet_status, "favorite_count"):
-        return tweet_status.favorite_count
-    else: return 0
-
-""" returns the number of retweet of the given tweet status"""
-def retweeted_count(tweet_status):
-    if hasattr(tweet_status, "retweet_count"):
-        return tweet_status.retweet_count
-    else: return 0
-
-""" verifies if the tweet is truncated"""
-def truncated(tweet_status):
-    if hasattr(tweet_status, "truncated"):
-        return tweet_status.truncated
-    else: return False
-
-""" verifies if the tweet is possibly sensitive"""
-def possibly_sensitive(tweet_status):
-    if hasattr(tweet_status, "possibly_sensitive"):
-        return tweet_status.possibly_sensitive
-    else:
-        return False
-
 
 
 if __name__ == "__main__":
