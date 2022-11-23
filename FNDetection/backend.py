@@ -15,7 +15,7 @@ def feat_vect(ID):
 """ this module detect if a certain tweet, given its id is fake or not"""
 if __name__=="__main__":
     id =int(sys.argv[1])
-    model = load_model("./models/xgbmodel")
+    model = load_model("./models/xgbmodel_low_feat")
     fv=feat_vect(id)
     
     if fv is None:
