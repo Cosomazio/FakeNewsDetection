@@ -20,8 +20,7 @@ if __name__=="__main__":
     
     if fv is None:
         sys.exit(-1)
-        
-    fv=fv.reshape(1, 57)
+    fv=fv.reshape(1, 21)
     prediction = model.predict(fv)[-1]
     if(prediction==1):
         sys.exit(10)
