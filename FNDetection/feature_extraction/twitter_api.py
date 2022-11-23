@@ -2,11 +2,11 @@ import tweepy
 
 """ autenticazione quando viene abilitato l'accesso elevated"""
 def api_v1_connection():
-    consumer_key = "RkiLe7ecmNpXudVIbZFxpmlyY" 
-    consumer_secret = "SIW5SfYEN0BZvg9t9iBqiiRXAiZgonnk57QV9vNlvpXzp7ovAm"
+    consumer_key = "" 
+    consumer_secret = ""
 
-    access_token = "1567779884130344960-WczEo42lWdnqFvwqO1YJCJLpirAvVH"
-    access_token_secret= "5xu4kMepXd6LW7rM5h0WWDkcAXu3wnx8WqpavCJhxzSFd"
+    access_token = ""
+    access_token_secret= ""
     auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
     auth.set_access_token(access_token,access_token_secret)
     api = tweepy.API(auth, wait_on_rate_limit=True)
@@ -15,12 +15,12 @@ def api_v1_connection():
 
 """accesso per api v2 attraverso client"""
 def api_v2_connection():
-    bearer_token = "AAAAAAAAAAAAAAAAAAAAADYwhgEAAAAAJFMXr4X9NWOvpZyHNN2RSumYt4A%3D5yvBrW4XPKfCx3gLTxOenpqdNhUVjjYMzuWv2zYQssyddGtMLm"
-    consumer_key = "RkiLe7ecmNpXudVIbZFxpmlyY" 
-    consumer_secret = "SIW5SfYEN0BZvg9t9iBqiiRXAiZgonnk57QV9vNlvpXzp7ovAm"
+    bearer_token = ""
+    consumer_key = "" 
+    consumer_secret = ""
 
-    access_token = "1567779884130344960-WczEo42lWdnqFvwqO1YJCJLpirAvVH"
-    access_token_secret= "5xu4kMepXd6LW7rM5h0WWDkcAXu3wnx8WqpavCJhxzSFd"
+    access_token = ""
+    access_token_secret= ""
     client = tweepy.Client(bearer_token=bearer_token,consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token, access_token_secret=access_token_secret, wait_on_rate_limit=True)
     
     return client
