@@ -1,4 +1,3 @@
-[
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [18.89891745, 82.5590760883135], "name": "Jeypore, Odisha, India", "latitude": 18.89891745, "longitude": 82.5590760883135, "crs": "WGS-84"}},
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [40.779897, -73.968565], "name": "New York", "latitude": 40.779897, "longitude": -73.968565, "crs": "WGS-84"}},
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [40.779897, -73.968565], "name": "New York", "latitude": 40.779897, "longitude": -73.968565, "crs": "WGS-84"}},
@@ -1763,4 +1762,4 @@
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [29.2733964, 47.4979476], "name": "Kuwait", "latitude": 29.2733964, "longitude": 47.4979476, "crs": "WGS-84"}},
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [19.37218875, -72.33465445105234], "name": "Internet", "latitude": 19.37218875, "longitude": -72.33465445105234, "crs": "WGS-84"}},
 {"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [50.435519549999995, 30.558394026287374], "name": "Lavrska St, 9, Kyiv, Ukrajina", "latitude": 50.435519549999995, "longitude": 30.558394026287374, "crs": "WGS-84"}}
-]
+
