@@ -1,14 +1,3 @@
 [
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [18.89891745, 82.5590760883135], "name": "1588319725599174656", "latitude": 18.89891745, "longitude": 82.5590760883135, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [34.2331373, -102.4107493], "name": "1588319750148399105", "latitude": 34.2331373, "longitude": -102.4107493, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [34.2331373, -102.4107493], "name": "1588319952754601984", "latitude": 34.2331373, "longitude": -102.4107493, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [-31.7613365, -71.3187697], "name": "1588319903769317378", "latitude": -31.7613365, "longitude": -71.3187697, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [55.097087, 10.2428246], "name": "1588319458476453889", "latitude": 55.097087, "longitude": 10.2428246, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [43.7195336, 6.9787811], "name": "1588319284069281793", "latitude": 43.7195336, "longitude": 6.9787811, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [38.897699700000004, -77.03655315], "name": "1588319547446427648", "latitude": 38.897699700000004, "longitude": -77.03655315, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [42.2681569, -83.7312291], "name": "1588319597618663425", "latitude": 42.2681569, "longitude": -83.7312291, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [53.50652485, -2.3374401422576687], "name": "1588319310698917889", "latitude": 53.50652485, "longitude": -2.3374401422576687, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [-33.8698439, 151.2082848], "name": "1588319501984366592", "latitude": -33.8698439, "longitude": 151.2082848, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [36.1563122, -95.9927436], "name": "1588318914630533122", "latitude": 36.1563122, "longitude": -95.9927436, "crs": "WGS-84"}},
-{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [36.1563122, -95.9927436], "name": "1588318912122425344", "latitude": 36.1563122, "longitude": -95.9927436, "crs": "WGS-84"}}
+{"type": "node", "labels": ["Tweet"], "properties": {"coordinates": [18.89891745, 82.5590760883135], "name": "1588319725599174656", "latitude": 18.89891745, "longitude": 82.5590760883135, "crs": "WGS-84"}}
 ]
